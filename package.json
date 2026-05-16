@@ -1,18 +1,12 @@
 {
   "name": "railway",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "exceljs": "^4.4.0",
-    "express": "^5.2.1",
-    "node-cron": "^4.2.1"
+    "express": "^4.18.2",
+    "node-cron": "^3.0.3"
   }
 }
