@@ -128,18 +128,22 @@ async function refreshLeaderboard() {
 async function refreshJackpot() {
   console.log("[jk]", new Date().toISOString(), "fetching...");
   try {
-    const poolRes = await fetchJSON("https://axiedom.xyz/api/weekly-pool");
-    if (poolRes.status !== 200) throw new Error("Pool HTTP " + poolRes.status);
+    const poolRes = await fetchJSON("https://axiedom.xyz/api/jackpot/pool");
+    if (poolRes.status !== 200) throw new Error("Jackpot pool HTTP " + poolRes.status);
     const pool    = poolRes.body;
-    const usdt    = parseInt(pool.currentPoolWei) / 1_000_000;
+    // balanceWei uses 6 decimals (USDC) → divide by 1_000_000
+    const usdt    = parseInt(pool.balanceWei) / 1_000_000;
 
     jackpotData = {
-      poolUSDT:    usdt,
-      weekNumber:  pool.weekNumber,
-      weekEnd:     pool.weekEnd,
-      mega:        +(usdt * 0.02).toFixed(2),
-      major:       +(usdt * 0.005).toFixed(2),
-      minor:       +(usdt * 0.001).toFixed(2),
+      poolUSDT:      usdt,
+      balanceWei:    pool.balanceWei,
+      totalAddedWei: pool.totalAddedWei,
+      totalPaidWei:  pool.totalPaidWei,
+      totalAdded:    +(parseInt(pool.totalAddedWei)  / 1_000_000).toFixed(2),
+      totalPaid:     +(parseInt(pool.totalPaidWei)   / 1_000_000).toFixed(2),
+      mega:          +(usdt * 0.02).toFixed(2),
+      major:         +(usdt * 0.005).toFixed(2),
+      minor:         +(usdt * 0.001).toFixed(2),
     };
 
     const chatRes = await fetchJSON("https://axiedom.xyz/api/chat/history?limit=50");
@@ -365,11 +369,12 @@ footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify
 }
 
 function buildJackpotPage() {
-  const jkPool  = jackpotData ? `$${jackpotData.poolUSDT.toFixed(2)}` : "—";
-  const jkMeta  = jackpotData ? `WEEK #${jackpotData.weekNumber} — ENDS ${new Date(jackpotData.weekEnd).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}).toUpperCase()}` : "LOADING...";
-  const jkMega  = jackpotData ? `$${jackpotData.mega.toFixed(2)}` : "—";
-  const jkMajor = jackpotData ? `$${jackpotData.major.toFixed(2)}` : "—";
-  const jkMinor = jackpotData ? `$${jackpotData.minor.toFixed(2)}` : "—";
+  const jkPool       = jackpotData ? `${jackpotData.poolUSDT.toFixed(2)}` : "—";
+  const jkTotalAdded = jackpotData ? `${jackpotData.totalAdded.toLocaleString()}` : "—";
+  const jkTotalPaid  = jackpotData ? `${jackpotData.totalPaid.toLocaleString()}` : "—";
+  const jkMega       = jackpotData ? `${jackpotData.mega.toFixed(2)}` : "—";
+  const jkMajor      = jackpotData ? `${jackpotData.major.toFixed(2)}` : "—";
+  const jkMinor      = jackpotData ? `${jackpotData.minor.toFixed(2)}` : "—";
 
   const logRows = winnerLog.length === 0
     ? '<div class="empty-state">NO WINNERS DETECTED YET — MONITORING ACTIVE</div>'
@@ -477,14 +482,21 @@ footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify
     <div>
       <div class="pool-label">CURRENT JACKPOT POOL</div>
       <div class="pool-value">${jkPool}</div>
-      <div class="pool-meta">${jkMeta}</div>
+      <div class="pool-meta">USDC (6 DECIMALS) — LIVE BALANCE</div>
+    </div>
+    <div>
+      <div class="pool-label">POOL STATS</div>
+      <div style="display:flex;gap:20px;margin-top:6px">
+        <div><div class="pool-label">TOTAL ADDED</div><div style="color:#C8FF00;font-weight:700;font-size:14px">${jkTotalAdded}</div></div>
+        <div><div class="pool-label">TOTAL PAID</div><div style="color:#ff4444;font-weight:700;font-size:14px">${jkTotalPaid}</div></div>
+      </div>
     </div>
     <div>
       <div class="pool-label">PRIZE TIERS</div>
-      <div style="display:flex;gap:24px;margin-top:6px">
-        <div><div class="pool-label">MEGA 2%</div><div style="color:#FFD700;font-weight:700;font-size:16px">${jkMega}</div></div>
-        <div><div class="pool-label">MAJOR 0.5%</div><div style="color:#60a5fa;font-weight:700;font-size:16px">${jkMajor}</div></div>
-        <div><div class="pool-label">MINOR 0.1%</div><div style="color:#666;font-size:16px">${jkMinor}</div></div>
+      <div style="display:flex;gap:20px;margin-top:6px">
+        <div><div class="pool-label">MEGA 2%</div><div style="color:#FFD700;font-weight:700;font-size:14px">${jkMega}</div></div>
+        <div><div class="pool-label">MAJOR 0.5%</div><div style="color:#60a5fa;font-weight:700;font-size:14px">${jkMajor}</div></div>
+        <div><div class="pool-label">MINOR 0.1%</div><div style="color:#666;font-size:14px">${jkMinor}</div></div>
       </div>
     </div>
   </div>
