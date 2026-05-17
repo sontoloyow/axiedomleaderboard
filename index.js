@@ -341,51 +341,68 @@ const FOOTER = `
 
 // ── PAGE: LEADERBOARD ─────────────────────────────────────────────────────────
 function buildPage() {
-  const myAddr = (MY_ADDRESS || "").toLowerCase();
+  const myAddr  = (MY_ADDRESS || "").toLowerCase();
   const updated = lastUpdate ? new Date(lastUpdate).toLocaleString("en-GB") : "NOT LOADED YET";
   const weekNum = poolData ? "WEEK #" + poolData.weekNumber : "";
+
+  // Build jackpot prize lookup by profileName (lowercase)
+  const jkByName = {};
+  Object.entries(winnerTally).forEach(([name, d]) => {
+    jkByName[name.toLowerCase()] = d.totalPrize;
+  });
 
   let summaryCards = "";
   if (poolData) {
     const me = leaderboardData ? leaderboardData.find(p => p.address.toLowerCase() === myAddr) : null;
+    const myJk = me ? (jkByName[(me.profileName||"").toLowerCase()] || 0) : 0;
+    const myTotal = me ? me.earning + myJk : null;
     summaryCards = `
-      <div class="stat-card"><div class="stat-label">POOL (USDT)</div><div class="stat-value">$${poolData.poolUSDT.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div></div>
+      <div class="stat-card"><div class="stat-label">POOL</div><div class="stat-value">$${poolData.poolUSDT.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</div></div>
       <div class="stat-card"><div class="stat-label">TOTAL TREASURE</div><div class="stat-value">${(poolData.totalTreasure/1e6).toFixed(1)}M</div></div>
       <div class="stat-card"><div class="stat-label">TOTAL PLAYERS</div><div class="stat-value">${poolData.total}</div></div>
       <div class="stat-card"><div class="stat-label">YOUR RANK</div><div class="stat-value">${me ? "#"+me.rank : "—"}</div></div>
-      <div class="stat-card"><div class="stat-label">YOUR EARNING</div><div class="stat-value" style="color:${me&&me.earning>=0?"#C8FF00":"#ff4444"}">${me?(me.earning>=0?"+":"")+me.earning.toFixed(2):"—"}</div></div>`;
+      <div class="stat-card"><div class="stat-label">YOUR EARNING</div><div class="stat-value" style="color:${me&&me.earning>=0?"#C8FF00":"#ff4444"}">${me?(me.earning>=0?"+":"")+me.earning.toFixed(2):"—"}</div></div>
+      <div class="stat-card"><div class="stat-label">TOTAL + JACKPOT</div><div class="stat-value" style="color:${myTotal!==null&&myTotal>=0?"#C8FF00":"#ff4444"}">${myTotal!==null?(myTotal>=0?"+":"")+myTotal.toFixed(2):"—"}</div></div>`;
   }
 
-  let lbRows = "";
+  // Build rows as JSON for client-side sort
+  let rowsJson = "[]";
   if (leaderboardData && poolData) {
-    leaderboardData.forEach((p) => {
-      const isMe     = p.address.toLowerCase() === myAddr;
-      const rowStyle = isMe ? ' style="background:#1a1c00"' : "";
-      const rc       = p.rank===1?"rank-gold":p.rank===2?"rank-silver":p.rank===3?"rank-bronze":"rank-num";
-      const diff     = p.keysDiff===null ? '<span style="color:#666">—</span>'
-        : p.keysDiff>0  ? `<span style="color:#a78bfa;font-weight:700">+${p.keysDiff}</span>`
-        : p.keysDiff===0 ? '<span style="color:#666">0</span>'
-        : `<span style="color:#ff4444">${p.keysDiff}</span>`;
-      const ec = p.earning>=0?"#C8FF00":"#ff4444";
-      lbRows += `<tr${rowStyle}>
-        <td class="${rc}">${p.rank}</td>
-        <td class="name-cell">${p.profileName||p.address.slice(0,8)+"…"}${isMe?' <span style="color:#C8FF00">★</span>':""}</td>
-        <td>${p.treasure.toLocaleString()}</td>
-        <td>${p.marbles.toLocaleString()}</td>
-        <td>${p.runCount}</td>
-        <td>${p.totalKeysSpent}</td>
-        <td>${diff}</td>
-        <td>${p.payout.toFixed(2)}</td>
-        <td>${p.cost.toFixed(2)}</td>
-        <td style="color:${ec};font-weight:700">${p.earning>=0?"+":""}${p.earning.toFixed(2)}</td>
-      </tr>`;
+    const rows = leaderboardData.map((p) => {
+      const name     = p.profileName || p.address.slice(0,8)+"…";
+      const jkPrize  = jkByName[name.toLowerCase()] || 0;
+      const totalEarn = +(p.earning + jkPrize).toFixed(4);
+      return {
+        rank:       p.rank,
+        name,
+        address:    p.address,
+        treasure:   p.treasure,
+        marbles:    p.marbles,
+        runCount:   p.runCount,
+        keys:       p.totalKeysSpent,
+        keysDiff:   p.keysDiff,
+        payout:     p.payout,
+        cost:       p.cost,
+        earning:    p.earning,
+        jkPrize,
+        totalEarn,
+        isMe:       p.address.toLowerCase() === myAddr,
+      };
     });
+    rowsJson = JSON.stringify(rows);
   }
+
+  const EXTRA_CSS = `
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:#fff}
+th.sortable.asc::after{content:" ▲";color:var(--neon)}
+th.sortable.desc::after{content:" ▼";color:var(--neon)}
+`;
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="refresh" content="300"><title>MOG_STATS // Leaderboard</title>
-<style>${SHARED_CSS}</style></head><body>
+<style>${SHARED_CSS}${EXTRA_CSS}</style></head><body>
 ${NAV("lb")}
 <div class="panel">
   <div class="sys-label">SYSTEM_ACCESS_GRANTED</div>
@@ -396,13 +413,107 @@ ${NAV("lb")}
     <div class="update-time">LAST UPDATE: ${updated}${weekNum?" — "+weekNum:""}</div></div>
   </div>
   ${summaryCards ? `<div class="stats-grid">${summaryCards}</div>` : ""}
-  ${lbRows
-    ? `<div class="tbl-wrap"><table>
-        <thead><tr><th>#</th><th>PLAYER</th><th>TREASURE</th><th>MARBLES</th><th>RUNS</th><th>KEYS</th><th>KEYS DIFF</th><th>PAYOUT (USDT)</th><th>COST (USDT)</th><th>EARNING (USDT)</th></tr></thead>
-        <tbody>${lbRows}</tbody></table></div>`
-    : `<div class="empty-state" style="border:1px solid var(--border)">LOADING DATA — PLEASE WAIT</div>`}
+  <div class="tbl-wrap" id="lb-wrap">
+    <table id="lb-table">
+      <thead><tr>
+        <th>#</th>
+        <th>PLAYER</th>
+        <th class="sortable" data-col="treasure">TREASURE</th>
+        <th>MARBLES</th>
+        <th>RUNS</th>
+        <th class="sortable" data-col="keys">KEYS</th>
+        <th>KEYS DIFF</th>
+        <th class="sortable" data-col="payout">PAYOUT</th>
+        <th class="sortable" data-col="cost">COST</th>
+        <th class="sortable" data-col="earning">EARNING</th>
+        <th class="sortable" data-col="jkPrize">JACKPOT</th>
+        <th class="sortable" data-col="totalEarn">TOTAL EARNING</th>
+      </tr></thead>
+      <tbody id="lb-body"></tbody>
+    </table>
+  </div>
+  <div id="lb-empty" class="empty-state" style="border:1px solid var(--border);display:none">LOADING DATA — PLEASE WAIT</div>
 </div>
-${FOOTER}</body></html>`;
+${FOOTER}
+<script>
+const ROWS = ${rowsJson};
+const myAddr = "${myAddr}";
+let sortCol = null;
+let sortDir = 1; // 1 = desc, -1 = asc
+
+function diffHtml(d) {
+  if (d === null) return '<span style="color:#666">—</span>';
+  if (d > 0) return '<span style="color:#a78bfa;font-weight:700">+'+d+'</span>';
+  if (d === 0) return '<span style="color:#666">0</span>';
+  return '<span style="color:#ff4444">'+d+'</span>';
+}
+function colorVal(v, bold) {
+  const c = v >= 0 ? '#C8FF00' : '#ff4444';
+  return '<span style="color:'+c+';font-weight:'+(bold?'700':'400')+'">'+(v>=0?'+':'')+v.toFixed(2)+'</span>';
+}
+function rankClass(r) {
+  return r===1?'rank-gold':r===2?'rank-silver':r===3?'rank-bronze':'rank-num';
+}
+
+function render() {
+  const body = document.getElementById('lb-body');
+  if (!ROWS.length) {
+    document.getElementById('lb-empty').style.display = 'block';
+    document.getElementById('lb-table').style.display = 'none';
+    return;
+  }
+  let sorted = [...ROWS];
+  if (sortCol) {
+    sorted.sort((a,b) => {
+      const av = a[sortCol], bv = b[sortCol];
+      if (av === null && bv === null) return 0;
+      if (av === null) return 1;
+      if (bv === null) return -1;
+      return (bv - av) * sortDir;
+    });
+  }
+  body.innerHTML = sorted.map((p, i) => {
+    const rowStyle = p.isMe ? ' style="background:#1a1c00"' : '';
+    const star = p.isMe ? ' <span style="color:#C8FF00">★</span>' : '';
+    const jkCell = p.jkPrize > 0
+      ? '<span style="color:#FFD700;font-weight:700">+'+p.jkPrize.toFixed(2)+'</span>'
+      : '<span style="color:#444">—</span>';
+    return '<tr'+rowStyle+'>'
+      +'<td class="'+rankClass(p.rank)+'">'+p.rank+'</td>'
+      +'<td class="name-cell">'+p.name+star+'</td>'
+      +'<td>'+p.treasure.toLocaleString()+'</td>'
+      +'<td>'+p.marbles.toLocaleString()+'</td>'
+      +'<td>'+p.runCount+'</td>'
+      +'<td>'+p.keys+'</td>'
+      +'<td>'+diffHtml(p.keysDiff)+'</td>'
+      +'<td>'+p.payout.toFixed(2)+'</td>'
+      +'<td>'+p.cost.toFixed(2)+'</td>'
+      +'<td>'+colorVal(p.earning, false)+'</td>'
+      +'<td>'+jkCell+'</td>'
+      +'<td>'+colorVal(p.totalEarn, true)+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+document.querySelectorAll('th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) {
+      sortDir *= -1;
+      th.className = th.className.replace(/asc|desc/g,'').trim() + (sortDir===1?' desc':' asc');
+    } else {
+      document.querySelectorAll('th.sortable').forEach(t => t.className = t.className.replace(/asc|desc/g,'').trim());
+      sortCol = col;
+      sortDir = 1;
+      th.classList.add('desc');
+    }
+    render();
+  });
+});
+
+render();
+</script>
+</body></html>`;
 }
 
 // ── PAGE: JACKPOT ─────────────────────────────────────────────────────────────
@@ -428,13 +539,15 @@ function buildJackpotPage() {
         </div>`;
       }).join("");
 
-  const jkSorted = Object.entries(winnerTally).sort((a,b) => b[1].total - a[1].total);
+  // Sort by totalPrize descending
+  const jkSorted = Object.entries(winnerTally).sort((a,b) => b[1].totalPrize - a[1].totalPrize);
   const jkLbRows = jkSorted.length === 0
     ? '<tr><td colspan="7" class="empty-state" style="padding:20px;text-align:center">NO DATA YET</td></tr>'
     : jkSorted.map(([name,d],i) => {
         const rc = i===0?"rank-gold":i===1?"rank-silver":i===2?"rank-bronze":"rank-num";
         return `<tr>
-          <td class="${rc}">${i+1}</td><td class="name-cell">${name}</td>
+          <td class="${rc}">${i+1}</td>
+          <td class="name-cell">${name}</td>
           <td style="color:#FFD700;font-weight:700">${d.MEGA}</td>
           <td style="color:#60a5fa;font-weight:700">${d.MAJOR}</td>
           <td style="color:#888">${d.MINOR}</td>
@@ -460,7 +573,7 @@ ${NAV("jk")}
     <div>
       <div class="pool-label">CURRENT JACKPOT POOL</div>
       <div class="pool-value">${jkPool}</div>
-      <div class="pool-meta">LIVE BALANCE — USDC (6 DECIMALS)</div>
+      <div class="pool-meta">LIVE BALANCE</div>
     </div>
     <div>
       <div class="pool-label">POOL STATS</div>
@@ -483,7 +596,7 @@ ${NAV("jk")}
     <div class="log-header"><span>RECENT WEREWOLF DEFEATS</span><span>${winnerLog.length} TOTAL</span></div>
     <div>${logRows}</div>
   </div>
-  <div class="section-title">TOP PRIZE EARNERS</div>
+  <div class="section-title">TOP PRIZE EARNERS — SORTED BY TOTAL PRIZE</div>
   <div class="tbl-wrap">
     <table>
       <thead><tr><th>#</th><th>WINNER</th><th>MEGA</th><th>MAJOR</th><th>MINOR</th><th>TOTAL WINS</th><th>TOTAL PRIZE</th></tr></thead>
