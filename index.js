@@ -483,7 +483,8 @@ function render(){
     const star=p.isMe?' <span style="color:#C8FF00">★</span>':'';
     const jk=p.jkPrize>0?'<span style="color:#FFD700;font-weight:700">+'+p.jkPrize.toFixed(2)+'</span>':'<span style="color:#333">—</span>';
     const kd=p.keysDiff===null?'<span style="color:#444">—</span>':diffHtml(p.keysDiff);
-    return'<tr'+rs+'><td class="'+rc(p.rank)+'">'+p.rank+'</td><td class="name-cell">'+p.name+star+'</td><td>'+p.treasure.toLocaleString()+'</td><td>'+p.marbles.toLocaleString()+'</td><td>'+p.runCount+'</td><td>'+p.keys+'</td><td>'+kd+'</td><td>'+p.payout.toFixed(2)+'</td><td>'+p.cost.toFixed(2)+'</td><td>'+colorVal(p.earning,false)+'</td><td>'+jk+'</td><td>'+colorVal(p.totalEarn,true)+'</td></tr>';
+    const playerLink='<a href="/player/'+p.address+'?name='+encodeURIComponent(p.name)+'" target="_blank" title="Click to view claim history" style="color:inherit;text-decoration:none;border-bottom:1px dashed #444;padding-bottom:1px;transition:color .15s" onmouseover="this.style.color=\'#C8FF00\';this.style.borderColor=\'#C8FF00\'" onmouseout="this.style.color=\'inherit\';this.style.borderColor=\'#444\'">'+p.name+star+'</a>';
+    return'<tr'+rs+'><td class="'+rc(p.rank)+'">'+p.rank+'</td><td class="name-cell">'+playerLink+'</td><td>'+p.treasure.toLocaleString()+'</td><td>'+p.marbles.toLocaleString()+'</td><td>'+p.runCount+'</td><td>'+p.keys+'</td><td>'+kd+'</td><td>'+p.payout.toFixed(2)+'</td><td>'+p.cost.toFixed(2)+'</td><td>'+colorVal(p.earning,false)+'</td><td>'+jk+'</td><td>'+colorVal(p.totalEarn,true)+'</td></tr>';
   }).join('');
 }
 document.querySelectorAll('th.sortable').forEach(th=>{
@@ -652,10 +653,238 @@ ${NAV("jk")}
 ${FOOTER}</body></html>`;
 }
 
+
+// ── PLAYER DETAIL ─────────────────────────────────────────────────────────────
+const EXPLORER_API   = "https://explorer-ronin-mainnet-bfz9fadqzl.t.conduit.xyz/api/v2";
+const CONTRACT_BLESS = "0xb85b9b814d01a77d661d92852abbfa606d10c591";
+const CONTRACT_PAY   = "0x35a373f1fdc435f500cf02f667ddad89021779f7";
+const METHOD_BLESS   = "0x01608d9c";
+const METHOD_PAY     = "0x219e0149";
+
+function fetchExplorer(url) {
+  return new Promise((resolve, reject) => {
+    const req = https.get(url, { headers: { "User-Agent": "Mozilla/5.0", Accept: "application/json" } }, (res) => {
+      let raw = "";
+      res.on("data", c => raw += c);
+      res.on("end", () => {
+        try { resolve(JSON.parse(raw)); }
+        catch { reject(new Error("JSON parse: " + raw.slice(0,100))); }
+      });
+    });
+    req.on("error", reject);
+    req.setTimeout(15000, () => { req.destroy(); reject(new Error("timeout")); });
+  });
+}
+
+async function fetchPlayerTxs(address) {
+  let items = [], nextParams = null, page = 0;
+  while (page < 4) {
+    let url = `${EXPLORER_API}/addresses/${address}/transactions?limit=50`;
+    if (nextParams) {
+      const qs = Object.entries(nextParams).map(([k,v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join("&");
+      url += "&" + qs;
+    }
+    try {
+      const data = await fetchExplorer(url);
+      items = items.concat(data.items || []);
+      nextParams = data.next_page_params || null;
+      if (!nextParams) break;
+    } catch(e) { console.error("[explorer]", e.message); break; }
+    page++;
+  }
+  return items;
+}
+
+async function fetchTxDetail(txHash) {
+  return fetchExplorer(`${EXPLORER_API}/transactions/${txHash}`);
+}
+
+async function buildPlayerDetailPage(address, playerName) {
+  // 1. Fetch transactions
+  let txItems;
+  try { txItems = await fetchPlayerTxs(address); }
+  catch(e) { txItems = []; }
+
+  // 2. Filter blessing & payout
+  const blessingTxs = txItems.filter(tx =>
+    ((tx.to||{}).hash||"").toLowerCase() === CONTRACT_BLESS &&
+    (tx.method||"").toLowerCase() === METHOD_BLESS && tx.status === "ok"
+  );
+  const payoutTxs = txItems.filter(tx =>
+    (tx.method||"").toLowerCase() === METHOD_PAY && tx.status === "ok"
+  );
+
+  // 3. Enrich with TX detail (parallel, max 20 per type)
+  async function enrichTxs(txList, methodLabel) {
+    const capped = txList.slice(0, 20);
+    const results = await Promise.all(capped.map(async tx => {
+      try {
+        const detail = await fetchTxDetail(tx.hash);
+        const tt = (detail.token_transfers || []).find(t => t.token && t.token.symbol === "USDC");
+        const usdt = tt ? parseInt(tt.total.value) / Math.pow(10, parseInt(tt.total.decimals)) : 0;
+        return { hash: tx.hash, timestamp: tx.timestamp, method: methodLabel, usdt: +usdt.toFixed(2) };
+      } catch {
+        return { hash: tx.hash, timestamp: tx.timestamp, method: methodLabel, usdt: 0 };
+      }
+    }));
+    return results.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+  }
+
+  const [blessingDetails, payoutDetails] = await Promise.all([
+    enrichTxs(blessingTxs, "CLAIM BLESSING"),
+    enrichTxs(payoutTxs,   "CLAIM PAYOUT"),
+  ]);
+
+  // 4. Summaries
+  const totalBlessing = +blessingDetails.reduce((s,t) => s+t.usdt, 0).toFixed(2);
+  const totalPayout   = +payoutDetails.reduce((s,t) => s+t.usdt, 0).toFixed(2);
+  const totalClaim    = +(totalBlessing + totalPayout).toFixed(2);
+  const allTxs        = [...blessingDetails, ...payoutDetails].sort((a,b) => new Date(b.timestamp)-new Date(a.timestamp));
+
+  // 5. Leaderboard & jackpot data
+  const lbPlayer  = (leaderboardData||[]).find(p => p.address.toLowerCase() === address.toLowerCase());
+  const jkEntry   = winnerTally[playerName] || (lbPlayer ? winnerTally[lbPlayer.profileName] : null) || null;
+  const lbRank    = lbPlayer ? "#"+lbPlayer.rank : "—";
+  const lbTreasure= lbPlayer ? lbPlayer.treasure.toLocaleString() : "—";
+  const lbEarning = lbPlayer ? lbPlayer.earning : null;
+  const lbRuns    = lbPlayer ? lbPlayer.runCount : "—";
+  const lbKeys    = lbPlayer ? lbPlayer.totalKeysSpent : "—";
+  const grandTotal= +(totalClaim + (jkEntry ? jkEntry.totalPrize : 0)).toFixed(2);
+
+  // 6. TX table rows
+  const txRows = allTxs.map(tx => {
+    const dt      = new Date(tx.timestamp);
+    const date    = dt.toLocaleDateString("en-GB", {day:"2-digit",month:"short",year:"numeric"});
+    const time    = dt.toLocaleTimeString("en-GB");
+    const isBless = tx.method === "CLAIM BLESSING";
+    const mc      = isBless ? "#C8FF00" : "#60a5fa";
+    const expUrl  = `https://app.roninchain.com/tx/${tx.hash}`;
+    return `<tr>
+      <td style="color:var(--muted);font-size:10px;line-height:1.6">${date}<br>${time}</td>
+      <td><span style="color:${mc};font-weight:700;font-size:10px;letter-spacing:1px;background:${mc}18;padding:2px 8px;border-radius:2px">${tx.method}</span></td>
+      <td style="color:#C8FF00;font-weight:700;font-size:14px">$${tx.usdt.toFixed(2)}</td>
+      <td><a href="${expUrl}" target="_blank" style="color:var(--muted);font-size:10px;text-decoration:none;letter-spacing:1px;border:1px solid var(--border);padding:3px 8px;display:inline-block" onmouseover="this.style.color='#C8FF00';this.style.borderColor='#C8FF00'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">VIEW TX ↗</a></td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="4" class="empty-state" style="padding:28px">NO TRANSACTIONS FOUND</td></tr>`;
+
+  return `<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOG_STATS // ${playerName}</title>
+<style>
+${SHARED_CSS}
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:10px;letter-spacing:2px;text-decoration:none;border:1px solid var(--border);padding:6px 14px;margin-bottom:22px;transition:all .15s}
+.back-btn:hover{color:var(--neon);border-color:var(--neon)}
+.addr-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.addr-full{color:#aaa;font-size:10px;background:var(--surface2);border:1px solid var(--border);padding:5px 10px;letter-spacing:1px;word-break:break-all;font-family:inherit}
+.exp-link{color:var(--muted);font-size:10px;letter-spacing:1px;border:1px solid var(--border);padding:5px 12px;text-decoration:none;transition:all .15s;white-space:nowrap}
+.exp-link:hover{color:var(--neon);border-color:var(--neon)}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px}
+.sum-card{background:var(--surface);padding:18px 14px}
+.sum-label{font-size:9px;letter-spacing:3px;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+.sum-value{font-size:21px;font-weight:700;color:var(--neon)}
+.sum-sub{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:1px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+.info-box{border:1px solid var(--border)}
+.info-header{background:var(--surface2);padding:9px 14px;font-size:9px;letter-spacing:3px;color:var(--muted);border-bottom:1px solid var(--border);text-transform:uppercase;display:flex;justify-content:space-between}
+.info-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #1a1a1a;font-size:12px}
+.info-row:last-child{border-bottom:none}
+.info-label{color:var(--muted);font-size:10px;letter-spacing:1px}
+.info-val{font-weight:700}
+</style></head><body>
+${NAV("")}
+<div class="panel">
+  <a href="/" class="back-btn">← LEADERBOARD</a>
+  <div class="sys-label">PLAYER_PROFILE</div>
+  <h1>${playerName.toUpperCase()}<br><span>CLAIM HISTORY</span></h1>
+  <div class="addr-row">
+    <span class="addr-full">${address}</span>
+    <a href="https://app.roninchain.com/address/${address}" target="_blank" class="exp-link">RONIN EXPLORER ↗</a>
+  </div>
+
+  <div class="summary-grid">
+    <div class="sum-card" style="background:#111800">
+      <div class="sum-label">TOTAL CLAIM</div>
+      <div class="sum-value">$${totalClaim.toFixed(2)}</div>
+      <div class="sum-sub">BLESSING + PAYOUT</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">CLAIM BLESSING</div>
+      <div class="sum-value" style="color:#C8FF00">$${totalBlessing.toFixed(2)}</div>
+      <div class="sum-sub">${blessingDetails.length} TRANSACTION${blessingDetails.length!==1?"S":""}</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">CLAIM PAYOUT</div>
+      <div class="sum-value" style="color:#60a5fa">$${totalPayout.toFixed(2)}</div>
+      <div class="sum-sub">${payoutDetails.length} TRANSACTION${payoutDetails.length!==1?"S":""}</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">JACKPOT WON</div>
+      <div class="sum-value" style="color:#FFD700">${jkEntry?"$"+jkEntry.totalPrize.toFixed(2):"—"}</div>
+      <div class="sum-sub">${jkEntry?jkEntry.total+" WIN(S)":"NOT IN MONITOR"}</div>
+    </div>
+    <div class="sum-card" style="background:#0d1a0d">
+      <div class="sum-label">GRAND TOTAL</div>
+      <div class="sum-value" style="font-size:26px">$${grandTotal.toFixed(2)}</div>
+      <div class="sum-sub">ALL SOURCES</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">WEEK EARNING (EST.)</div>
+      <div class="sum-value" style="color:${lbEarning!==null&&lbEarning>=0?"#C8FF00":"#ff4444"};font-size:18px">${lbEarning!==null?(lbEarning>=0?"+":"")+lbEarning.toFixed(2)+" USD":"—"}</div>
+      <div class="sum-sub">CURRENT WEEK</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-box">
+      <div class="info-header"><span>LEADERBOARD</span><span>CURRENT WEEK</span></div>
+      <div class="info-row"><span class="info-label">RANK</span><span class="info-val" style="color:var(--neon)">${lbRank}</span></div>
+      <div class="info-row"><span class="info-label">TREASURE</span><span class="info-val">${lbTreasure}</span></div>
+      <div class="info-row"><span class="info-label">RUNS</span><span class="info-val">${lbRuns}</span></div>
+      <div class="info-row"><span class="info-label">KEYS SPENT</span><span class="info-val">${lbKeys}</span></div>
+    </div>
+    <div class="info-box">
+      <div class="info-header"><span>JACKPOT WINS</span><span>${jkEntry?jkEntry.total+" WIN(S)":"NO DATA"}</span></div>
+      ${jkEntry?`
+      <div class="info-row"><span class="info-label">MEGA</span><span class="info-val" style="color:#FFD700">${jkEntry.MEGA}</span></div>
+      <div class="info-row"><span class="info-label">MAJOR</span><span class="info-val" style="color:#60a5fa">${jkEntry.MAJOR}</span></div>
+      <div class="info-row"><span class="info-label">MINOR</span><span class="info-val" style="color:#888">${jkEntry.MINOR}</span></div>
+      <div class="info-row"><span class="info-label">TOTAL PRIZE</span><span class="info-val" style="color:#FFD700">$${jkEntry.totalPrize.toFixed(2)}</span></div>
+      `:`<div class="info-row"><span class="info-label" style="width:100%;text-align:center;color:var(--muted)">NO JACKPOT WINS IN LOG</span></div>`}
+    </div>
+  </div>
+
+  <div class="section-title">TRANSACTION HISTORY — ${allTxs.length} RECORDS (MAX 20 PER TYPE)</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>TIMESTAMP</th>
+        <th>METHOD</th>
+        <th>AMOUNT (USDC)</th>
+        <th>EXPLORER</th>
+      </tr></thead>
+      <tbody>${txRows}</tbody>
+    </table>
+  </div>
+</div>
+${FOOTER}</body></html>`;
+}
+
 // ── ROUTES ────────────────────────────────────────────────────────────────────
 app.get("/",        (req,res) => res.send(buildPage(req.query.week||"current")));
 app.get("/shards",  (req,res) => res.send(buildShardsPage(req.query.week||"current")));
 app.get("/jackpot", (req,res) => res.send(buildJackpotPage()));
+app.get("/player/:address", async (req,res) => {
+  const addr   = req.params.address;
+  const player = (leaderboardData||[]).find(p => p.address.toLowerCase()===addr.toLowerCase());
+  const name   = req.query.name || (player ? player.profileName : null) || addr.slice(0,8)+"...";
+  try {
+    const html = await buildPlayerDetailPage(addr, name);
+    res.send(html);
+  } catch(e) {
+    res.status(500).send(`<pre style="color:#ff4444;background:#0a0a0a;padding:24px;font-family:monospace">ERROR: ${e.message}</pre>`);
+  }
+});
 app.get("/api/lb",  (req,res) => res.json({ updatedAt:lastUpdate, pool:poolData, data:leaderboardData }));
 app.get("/api/jk",  (req,res) => res.json({ jackpot:jackpotData, lastTs:lastWinnerTs, winners:winnerLog.slice(0,50), tally:winnerTally }));
 app.get("/api/weeks",(req,res)=> res.json({ weeks: listArchivedWeeks() }));
