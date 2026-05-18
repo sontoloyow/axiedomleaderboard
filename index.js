@@ -466,36 +466,93 @@ ${NAV("lb")}
   </div>
 </div>
 ${FOOTER}
+<script type="application/json" id="__lb">${encodeURIComponent(JSON.stringify(rows))}</script>
 <script>
-const ROWS=${JSON.stringify(rows)};
-let sortCol=null,sortDir=1;
-function diffHtml(d){if(d===null)return'<span style="color:#666">—</span>';if(d>0)return'<span style="color:#a78bfa;font-weight:700">+'+d+'</span>';if(d===0)return'<span style="color:#666">0</span>';return'<span style="color:#ff4444">'+d+'</span>';}
-function colorVal(v,bold){const c=v>=0?'#C8FF00':'#ff4444';return'<span style="color:'+c+';font-weight:'+(bold?700:400)+'">'+(v>=0?'+':'')+v.toFixed(2)+'</span>';}
+(function(){
+try{
+var el=document.getElementById('__lb');
+var ROWS=el?JSON.parse(decodeURIComponent(el.textContent)):[];
+var sortCol=null,sortDir=1;
+function dh(d){
+  if(d===null)return'<span style="color:#666">&#8212;</span>';
+  if(d>0)return'<span style="color:#a78bfa;font-weight:700">+'+d+'</span>';
+  if(d===0)return'<span style="color:#666">0</span>';
+  return'<span style="color:#ff4444">'+d+'</span>';
+}
+function cv(v,b){
+  var c=v>=0?'#C8FF00':'#ff4444';
+  return'<span style="color:'+c+';font-weight:'+(b?700:400)+'">'+(v>=0?'+':'')+v.toFixed(2)+'</span>';
+}
 function rc(r){return r===1?'rank-gold':r===2?'rank-silver':r===3?'rank-bronze':'rank-num';}
 function render(){
-  const body=document.getElementById('lb-body');
-  const empty=document.getElementById('lb-empty');
-  if(!ROWS.length){empty.style.display='block';document.getElementById('lb-table').style.display='none';return;}
-  let sorted=[...ROWS];
-  if(sortCol)sorted.sort((a,b)=>{const av=a[sortCol],bv=b[sortCol];if(av===null&&bv===null)return 0;if(av===null)return 1;if(bv===null)return -1;return(bv-av)*sortDir;});
-  body.innerHTML=sorted.map(p=>{
-    const rs=p.isMe?' style="background:#1a1c00"':'';
-    const star=p.isMe?' <span style="color:#C8FF00">★</span>':'';
-    const jk=p.jkPrize>0?'<span style="color:#FFD700;font-weight:700">+'+p.jkPrize.toFixed(2)+'</span>':'<span style="color:#333">—</span>';
-    const kd=p.keysDiff===null?'<span style="color:#444">—</span>':diffHtml(p.keysDiff);
-    const playerLink='<a href="/player/'+p.address+'?name='+encodeURIComponent(p.name)+'" target="_blank" title="Click to view claim history" style="color:inherit;text-decoration:none;border-bottom:1px dashed #444;padding-bottom:1px;transition:color .15s" onmouseover="this.style.color=\'#C8FF00\';this.style.borderColor=\'#C8FF00\'" onmouseout="this.style.color=\'inherit\';this.style.borderColor=\'#444\'">'+p.name+star+'</a>';
-    return'<tr'+rs+'><td class="'+rc(p.rank)+'">'+p.rank+'</td><td class="name-cell">'+playerLink+'</td><td>'+p.treasure.toLocaleString()+'</td><td>'+p.marbles.toLocaleString()+'</td><td>'+p.runCount+'</td><td>'+p.keys+'</td><td>'+kd+'</td><td>'+p.payout.toFixed(2)+'</td><td>'+p.cost.toFixed(2)+'</td><td>'+colorVal(p.earning,false)+'</td><td>'+jk+'</td><td>'+colorVal(p.totalEarn,true)+'</td></tr>';
+  var body=document.getElementById('lb-body');
+  var empty=document.getElementById('lb-empty');
+  if(!ROWS||!ROWS.length){
+    if(empty)empty.style.display='block';
+    var tbl=document.getElementById('lb-table');
+    if(tbl)tbl.style.display='none';
+    return;
+  }
+  var sorted=ROWS.slice();
+  if(sortCol)sorted.sort(function(a,b){
+    var av=a[sortCol],bv=b[sortCol];
+    if(av===null&&bv===null)return 0;
+    if(av===null)return 1;
+    if(bv===null)return -1;
+    return(bv-av)*sortDir;
+  });
+  body.innerHTML=sorted.map(function(p){
+    var rs=p.isMe?' style="background:#1a1c00"':'';
+    var star=p.isMe?' <span style="color:#C8FF00">&#9733;</span>':'';
+    var jk=p.jkPrize>0
+      ?'<span style="color:#FFD700;font-weight:700">+'+p.jkPrize.toFixed(2)+'</span>'
+      :'<span style="color:#333">&#8212;</span>';
+    var kd=p.keysDiff===null?'<span style="color:#444">&#8212;</span>':dh(p.keysDiff);
+    var sn=(p.name||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    var href='/player/'+encodeURIComponent(p.address)+'?name='+encodeURIComponent(p.name);
+    var lnk='<a href="'+href+'" target="_blank" '
+      +'style="color:inherit;text-decoration:none;border-bottom:1px dashed #555;padding-bottom:1px" '
+      +'onmouseover="this.style.color=\'#C8FF00\'" '
+      +'onmouseout="this.style.color=\'\'">'
+      +sn+star+'</a>';
+    return'<tr'+rs+'>'
+      +'<td class="'+rc(p.rank)+'">'+p.rank+'</td>'
+      +'<td class="name-cell">'+lnk+'</td>'
+      +'<td>'+p.treasure.toLocaleString()+'</td>'
+      +'<td>'+p.marbles.toLocaleString()+'</td>'
+      +'<td>'+p.runCount+'</td>'
+      +'<td>'+p.keys+'</td>'
+      +'<td>'+kd+'</td>'
+      +'<td>'+p.payout.toFixed(2)+'</td>'
+      +'<td>'+p.cost.toFixed(2)+'</td>'
+      +'<td>'+cv(p.earning,false)+'</td>'
+      +'<td>'+jk+'</td>'
+      +'<td>'+cv(p.totalEarn,true)+'</td>'
+      +'</tr>';
   }).join('');
 }
-document.querySelectorAll('th.sortable').forEach(th=>{
-  th.addEventListener('click',()=>{
-    const col=th.dataset.col;
-    if(sortCol===col){sortDir*=-1;th.className=th.className.replace(/asc|desc/g,'').trim()+(sortDir===1?' desc':' asc');}
-    else{document.querySelectorAll('th.sortable').forEach(t=>t.className=t.className.replace(/asc|desc/g,'').trim());sortCol=col;sortDir=1;th.classList.add('desc');}
+document.querySelectorAll('th.sortable').forEach(function(th){
+  th.addEventListener('click',function(){
+    var col=th.dataset.col;
+    if(sortCol===col){
+      sortDir*=-1;
+      th.className=th.className.replace(/asc|desc/g,'').trim()+(sortDir===1?' desc':' asc');
+    } else {
+      document.querySelectorAll('th.sortable').forEach(function(t){
+        t.className=t.className.replace(/asc|desc/g,'').trim();
+      });
+      sortCol=col; sortDir=1; th.classList.add('desc');
+    }
     render();
   });
 });
 render();
+} catch(e) {
+  console.error('render error:',e);
+  var b=document.getElementById('lb-body');
+  if(b)b.innerHTML='<tr><td colspan="12" style="color:#ff4444;padding:20px;text-align:center">RENDER ERROR: '+e.message+'</td></tr>';
+}
+})();
 </script></body></html>`;
 }
 
