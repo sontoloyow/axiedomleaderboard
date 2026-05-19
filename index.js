@@ -695,7 +695,7 @@ ${FOOTER}</body></html>`;
 
 
 // ── PLAYER DETAIL ─────────────────────────────────────────────────────────────
-const EXPLORER_API   = "https://explorer-ronin-mainnet-bfz9fadqzl.t.conduit.xyz/api/v2";
+const EXPLORER_API   = "https://explorer.roninchain.com/api/v2";
 const CONTRACT_BLESS = "0xb85b9b814d01a77d661d92852abbfa606d10c591";
 const CONTRACT_PAY   = "0x35a373f1fdc435f500cf02f667ddad89021779f7";
 const METHOD_BLESS   = "0x01608d9c";
@@ -703,7 +703,7 @@ const METHOD_PAY     = "0x219e0149";
 
 function fetchExplorer(url) {
   return new Promise((resolve, reject) => {
-    const req = https.get(url, { headers: { "User-Agent": "Mozilla/5.0", Accept: "application/json" } }, (res) => {
+    const req = https.get(url, { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0", Accept: "application/json", "Accept-Language": "en-US,en;q=0.9", Referer: "https://explorer.roninchain.com/", Cookie: COOKIE } }, (res) => {
       let raw = "";
       res.on("data", c => raw += c);
       res.on("end", () => {
@@ -798,7 +798,7 @@ async function buildPlayerDetailPage(address, playerName) {
     const time    = dt.toLocaleTimeString("en-GB");
     const isBless = tx.method === "CLAIM BLESSING";
     const mc      = isBless ? "#C8FF00" : "#60a5fa";
-    const expUrl  = `https://app.roninchain.com/tx/${tx.hash}`;
+    const expUrl  = `https://explorer.roninchain.com/tx/${tx.hash}`;
     return `<tr>
       <td style="color:var(--muted);font-size:10px;line-height:1.6">${date}<br>${time}</td>
       <td><span style="color:${mc};font-weight:700;font-size:10px;letter-spacing:1px;background:${mc}18;padding:2px 8px;border-radius:2px">${tx.method}</span></td>
@@ -839,7 +839,7 @@ ${NAV("")}
   <h1>${playerName.toUpperCase()}<br><span>CLAIM HISTORY</span></h1>
   <div class="addr-row">
     <span class="addr-full">${address}</span>
-    <a href="https://app.roninchain.com/address/${address}" target="_blank" class="exp-link">RONIN EXPLORER ↗</a>
+    <a href="https://explorer.roninchain.com/address/${address}" target="_blank" class="exp-link">RONIN EXPLORER ↗</a>
   </div>
 
   <div class="summary-grid">
