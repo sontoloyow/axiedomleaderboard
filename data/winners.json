@@ -1,0 +1,66 @@
+{
+  "savedAt": "2026-05-19T13:00:01.064Z",
+  "log": [
+    {
+      "ts": 1779187841547,
+      "name": "CNMBi",
+      "tier": "MINOR",
+      "prize": 10.52
+    },
+    {
+      "ts": 1779185888366,
+      "name": "dragmyn",
+      "tier": "MINOR",
+      "prize": 10.51
+    },
+    {
+      "ts": 1779184694141,
+      "name": "CNPcorpness",
+      "tier": "MINOR",
+      "prize": 10.51
+    },
+    {
+      "ts": 1779178846340,
+      "name": "Gmamo",
+      "tier": "MINOR",
+      "prize": 10.52
+    },
+    {
+      "ts": 1779177994273,
+      "name": "Gmamo",
+      "tier": "MAJOR",
+      "prize": 52.64
+    }
+  ],
+  "tally": {
+    "Gmamo": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 1,
+      "total": 2,
+      "totalPrize": 63.16
+    },
+    "CNPcorpness": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.51
+    },
+    "dragmyn": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.51
+    },
+    "CNMBi": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.52
+    }
+  },
+  "lastTs": 1779187841547
+}
