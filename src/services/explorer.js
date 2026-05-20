@@ -2,8 +2,10 @@ const https = require("https");
 
 const EXPLORER_API = "https://explorer.roninchain.com/api/v2";
 const CONTRACT_BLESS = "0xb85b9b814d01a77d661d92852abbfa606d10c591";
+const CONTRACT_USDC_SPENT = "0x35a373f1fdc435f500cf02f667ddad89021779f7";
 const METHOD_BLESS = "0x01608d9c";
 const METHOD_PAY = "0x219e0149";
+const MAX_TX_PAGES = 50;
 
 function lower(value) {
   return (value || "").toLowerCase();
@@ -49,7 +51,7 @@ async function fetchPlayerTxs(address, cookie = "") {
   let nextParams = null;
   let page = 0;
 
-  while (page < 4) {
+  while (page < MAX_TX_PAGES) {
     let url = `${EXPLORER_API}/addresses/${address}/transactions`;
     if (nextParams) {
       const qs = Object.entries(nextParams)
@@ -90,9 +92,20 @@ function sumIncomingUsdcTransfers(detail, address) {
     }, 0);
 }
 
+function sumOutgoingUsdcTransfers(detail, address) {
+  const source = lower(address);
+  return (detail.token_transfers || [])
+    .filter(t => t.token && t.token.symbol === "USDC")
+    .filter(t => lower(t.from?.hash) === source)
+    .reduce((sum, t) => {
+      const value = parseInt(t.total?.value || "0", 10);
+      const decimals = parseInt(t.total?.decimals || "6", 10);
+      return sum + (value / Math.pow(10, decimals));
+    }, 0);
+}
+
 async function enrichTxs(txList, methodLabel, address, cookie = "") {
-  const capped = txList.slice(0, 20);
-  const results = await Promise.all(capped.map(async tx => {
+  const results = await Promise.all(txList.map(async tx => {
     try {
       const detail = await fetchTxDetail(tx.hash, cookie);
       const usdt = sumIncomingUsdcTransfers(detail, address);
@@ -102,6 +115,21 @@ async function enrichTxs(txList, methodLabel, address, cookie = "") {
     }
   }));
   return results.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+}
+
+async function enrichSpentTxs(txList, address, cookie = "") {
+  const results = await Promise.all(txList.map(async tx => {
+    try {
+      const detail = await fetchTxDetail(tx.hash, cookie);
+      const usdc = sumOutgoingUsdcTransfers(detail, address);
+      return { hash: tx.hash, timestamp: tx.timestamp, method: "USDC SPENT", usdc: +usdc.toFixed(6) };
+    } catch {
+      return { hash: tx.hash, timestamp: tx.timestamp, method: "USDC SPENT", usdc: 0 };
+    }
+  }));
+  return results
+    .filter(tx => tx.usdc > 0)
+    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
 
 async function fetchClaimHistory(address, cookie = "") {
@@ -116,13 +144,18 @@ async function fetchClaimHistory(address, cookie = "") {
     lower(tx.method) === METHOD_PAY &&
     tx.status === "ok"
   );
+  const spentTxs = txItems.filter(tx =>
+    lower(tx.to?.hash) === CONTRACT_USDC_SPENT &&
+    tx.status === "ok"
+  );
 
-  const [blessingDetails, payoutDetails] = await Promise.all([
+  const [blessingDetails, payoutDetails, spentDetails] = await Promise.all([
     enrichTxs(blessingTxs, "CLAIM BLESSING", address, cookie),
     enrichTxs(payoutTxs, "CLAIM PAYOUT", address, cookie),
+    enrichSpentTxs(spentTxs, address, cookie),
   ]);
 
-  return { blessingDetails, payoutDetails };
+  return { blessingDetails, payoutDetails, spentDetails };
 }
 
 module.exports = {

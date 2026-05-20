@@ -720,24 +720,38 @@ ${FOOTER}</body></html>`;
 
 // ── PLAYER DETAIL ─────────────────────────────────────────────────────────────
 async function buildPlayerDetailPage(address, playerName) {
-  const { blessingDetails, payoutDetails } = await fetchClaimHistory(address, COOKIE);
+  const { blessingDetails, payoutDetails, spentDetails = [] } = await fetchClaimHistory(address, COOKIE);
 
   // 1. Summaries
   const formatClaim = (value) => value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const totalBlessing = +blessingDetails.reduce((s,t) => s+t.usdt, 0).toFixed(6);
   const totalPayout   = +payoutDetails.reduce((s,t) => s+t.usdt, 0).toFixed(6);
+  const totalSpent    = +spentDetails.reduce((s,t) => s+t.usdc, 0).toFixed(6);
   const totalClaim    = +(totalBlessing + totalPayout).toFixed(6);
   const allTxs        = [...blessingDetails, ...payoutDetails].sort((a,b) => new Date(b.timestamp)-new Date(a.timestamp));
+  const playerJackpot = blessingDetails.reduce((acc, tx) => {
+    let tier = null;
+    if (tx.usdt <= 17) tier = "MINOR";
+    else if (tx.usdt > 17 && tx.usdt <= 75) tier = "MAJOR";
+    else if (tx.usdt >= 100) tier = "MEGA";
+    else return acc;
+
+    acc[tier]++;
+    acc.details[tier].push(tx);
+    acc.total++;
+    acc.totalPrize += tx.usdt;
+    return acc;
+  }, { MEGA: 0, MAJOR: 0, MINOR: 0, total: 0, totalPrize: 0, details: { MEGA: [], MAJOR: [], MINOR: [] } });
+  playerJackpot.totalPrize = +playerJackpot.totalPrize.toFixed(6);
 
   // 5. Leaderboard & jackpot data
   const lbPlayer  = (leaderboardData||[]).find(p => p.address.toLowerCase() === address.toLowerCase());
-  const jkEntry   = winnerTally[playerName] || (lbPlayer ? winnerTally[lbPlayer.profileName] : null) || null;
+  const jkEntry   = playerJackpot.total > 0 ? playerJackpot : null;
   const lbRank    = lbPlayer ? "#"+lbPlayer.rank : "—";
   const lbTreasure= lbPlayer ? lbPlayer.treasure.toLocaleString() : "—";
-  const lbEarning = lbPlayer ? lbPlayer.earning : null;
   const lbRuns    = lbPlayer ? lbPlayer.runCount : "—";
   const lbKeys    = lbPlayer ? lbPlayer.totalKeysSpent : "—";
-  const grandTotal= +(totalClaim + (jkEntry ? jkEntry.totalPrize : 0)).toFixed(6);
+  const grandTotal= +(totalClaim - totalSpent).toFixed(6);
 
   // 6. TX table rows
   const txRows = allTxs.map(tx => {
@@ -754,6 +768,32 @@ async function buildPlayerDetailPage(address, playerName) {
       <td><a href="${expUrl}" target="_blank" style="color:var(--muted);font-size:10px;text-decoration:none;letter-spacing:1px;border:1px solid var(--border);padding:3px 8px;display:inline-block" onmouseover="this.style.color='#C8FF00';this.style.borderColor='#C8FF00'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">VIEW TX ↗</a></td>
     </tr>`;
   }).join("") || `<tr><td colspan="4" class="empty-state" style="padding:28px">NO TRANSACTIONS FOUND</td></tr>`;
+  const jackpotTierRows = jkEntry ? [
+    ["MEGA", "#FFD700"],
+    ["MAJOR", "#60a5fa"],
+    ["MINOR", "#888"],
+  ].map(([tier, color]) => {
+    const details = jkEntry.details[tier];
+    const detailRows = details.map(tx => {
+      const dt     = new Date(tx.timestamp);
+      const date   = dt.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
+      const time   = dt.toLocaleTimeString("en-GB");
+      const expUrl = `https://explorer.roninchain.com/tx/${tx.hash}`;
+      return `<div class="tier-tx">
+        <span class="tier-date">${date}<br>${time}</span>
+        <span class="tier-amount">$${formatClaim(tx.usdt)}</span>
+        <a href="${expUrl}" target="_blank" class="tier-link">TX</a>
+      </div>`;
+    }).join("") || `<div class="tier-empty">NO CLAIMS</div>`;
+
+    return `<details class="tier-breakdown">
+      <summary class="info-row tier-summary">
+        <span class="info-label tier-name" style="color:${color}">${tier}<span class="tier-hint">DETAIL</span></span>
+        <span class="info-val" style="color:${color}">${details.length}</span>
+      </summary>
+      <div class="tier-list">${detailRows}</div>
+    </details>`;
+  }).join("") : "";
 
   return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -779,6 +819,21 @@ ${SHARED_CSS}
 .info-row:last-child{border-bottom:none}
 .info-label{color:var(--muted);font-size:10px;letter-spacing:1px}
 .info-val{font-weight:700}
+.tier-breakdown{border-bottom:1px solid #1a1a1a}
+.tier-breakdown:last-of-type{border-bottom:none}
+.tier-summary{cursor:pointer;list-style:none;user-select:none}
+.tier-summary::-webkit-details-marker{display:none}
+.tier-summary .tier-name:before{content:"+";display:inline-block;width:14px;color:var(--muted)}
+.tier-breakdown[open] .tier-name:before{content:"-"}
+.tier-hint{margin-left:8px;color:var(--muted);font-size:8px;letter-spacing:1px}
+.tier-list{background:#090909;border-top:1px solid #181818;padding:4px 0}
+.tier-tx{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:8px 14px;border-bottom:1px solid #151515;font-size:11px}
+.tier-tx:last-child{border-bottom:none}
+.tier-date{color:var(--muted);font-size:10px;line-height:1.45}
+.tier-amount{font-weight:700;color:var(--neon)}
+.tier-link{color:var(--muted);font-size:9px;letter-spacing:1px;text-decoration:none;border:1px solid var(--border);padding:3px 7px}
+.tier-link:hover{color:var(--neon);border-color:var(--neon)}
+.tier-empty{padding:9px 14px;color:var(--muted);font-size:10px;text-align:center;letter-spacing:1px}
 </style></head><body>
 ${NAV("")}
 <div class="panel">
@@ -809,17 +864,17 @@ ${NAV("")}
     <div class="sum-card">
       <div class="sum-label">JACKPOT WON</div>
       <div class="sum-value" style="color:#FFD700">${jkEntry?"$"+jkEntry.totalPrize.toFixed(2):"—"}</div>
-      <div class="sum-sub">${jkEntry?jkEntry.total+" WIN(S)":"NOT IN MONITOR"}</div>
+      <div class="sum-sub">${jkEntry?jkEntry.total+" WIN(S)":"NO MATCHING CLAIMS"}</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">TOTAL USDC SPENT</div>
+      <div class="sum-value" style="color:#f97316">$${formatClaim(totalSpent)}</div>
+      <div class="sum-sub">${spentDetails.length} CONTRACT TX${spentDetails.length!==1?"S":""}</div>
     </div>
     <div class="sum-card" style="background:#0d1a0d">
       <div class="sum-label">GRAND TOTAL</div>
-      <div class="sum-value" style="font-size:26px">$${formatClaim(grandTotal)}</div>
-      <div class="sum-sub">ALL SOURCES</div>
-    </div>
-    <div class="sum-card">
-      <div class="sum-label">WEEK EARNING (EST.)</div>
-      <div class="sum-value" style="color:${lbEarning!==null&&lbEarning>=0?"#C8FF00":"#ff4444"};font-size:18px">${lbEarning!==null?(lbEarning>=0?"+":"")+lbEarning.toFixed(2)+" USD":"—"}</div>
-      <div class="sum-sub">CURRENT WEEK</div>
+      <div class="sum-value" style="font-size:26px;color:${grandTotal>=0?"#C8FF00":"#ff4444"}">$${formatClaim(grandTotal)}</div>
+      <div class="sum-sub">TOTAL CLAIM - USDC SPENT</div>
     </div>
   </div>
 
@@ -834,15 +889,13 @@ ${NAV("")}
     <div class="info-box">
       <div class="info-header"><span>JACKPOT WINS</span><span>${jkEntry?jkEntry.total+" WIN(S)":"NO DATA"}</span></div>
       ${jkEntry?`
-      <div class="info-row"><span class="info-label">MEGA</span><span class="info-val" style="color:#FFD700">${jkEntry.MEGA}</span></div>
-      <div class="info-row"><span class="info-label">MAJOR</span><span class="info-val" style="color:#60a5fa">${jkEntry.MAJOR}</span></div>
-      <div class="info-row"><span class="info-label">MINOR</span><span class="info-val" style="color:#888">${jkEntry.MINOR}</span></div>
+      ${jackpotTierRows}
       <div class="info-row"><span class="info-label">TOTAL PRIZE</span><span class="info-val" style="color:#FFD700">$${jkEntry.totalPrize.toFixed(2)}</span></div>
       `:`<div class="info-row"><span class="info-label" style="width:100%;text-align:center;color:var(--muted)">NO JACKPOT WINS IN LOG</span></div>`}
     </div>
   </div>
 
-  <div class="section-title">TRANSACTION HISTORY — ${allTxs.length} RECORDS (MAX 20 PER TYPE)</div>
+  <div class="section-title">TRANSACTION HISTORY — ${allTxs.length} RECORDS</div>
   <div class="tbl-wrap">
     <table>
       <thead><tr>

@@ -1,6 +1,189 @@
 {
-  "savedAt": "2026-05-19T13:00:01.064Z",
+  "savedAt": "2026-05-20T07:55:01.424Z",
+  "jackpot": {
+    "poolUSDT": 10164.732711,
+    "balanceWei": "10164732711",
+    "totalAdded": 36279.9,
+    "totalPaid": 31115.17,
+    "mega": 203.29,
+    "major": 50.82,
+    "minor": 10.16
+  },
   "log": [
+    {
+      "ts": 1779258657874,
+      "name": "MoneyMachine",
+      "tier": "MINOR",
+      "prize": 10.14
+    },
+    {
+      "ts": 1779256999247,
+      "name": "MEGAblessing",
+      "tier": "MINOR",
+      "prize": 10.15
+    },
+    {
+      "ts": 1779254380645,
+      "name": "Trandan",
+      "tier": "MAJOR",
+      "prize": 50.72
+    },
+    {
+      "ts": 1779253820513,
+      "name": "axiehub-peru.ron",
+      "tier": "MINOR",
+      "prize": 10.19
+    },
+    {
+      "ts": 1779253561750,
+      "name": "GordoPity",
+      "tier": "MINOR",
+      "prize": 10.2
+    },
+    {
+      "ts": 1779247523134,
+      "name": "Trandan",
+      "tier": "MINOR",
+      "prize": 10.16
+    },
+    {
+      "ts": 1779245979190,
+      "name": "_KRIT",
+      "tier": "MINOR",
+      "prize": 10.17
+    },
+    {
+      "ts": 1779243693754,
+      "name": "Trandan",
+      "tier": "MAJOR",
+      "prize": 50.83
+    },
+    {
+      "ts": 1779241710673,
+      "name": "sorsae",
+      "tier": "MAJOR",
+      "prize": 51.02
+    },
+    {
+      "ts": 1779241091729,
+      "name": "oxnoc",
+      "tier": "MINOR",
+      "prize": 10.25
+    },
+    {
+      "ts": 1779240336855,
+      "name": "oxnoc",
+      "tier": "MINOR",
+      "prize": 10.26
+    },
+    {
+      "ts": 1779239369463,
+      "name": "CNPcorpness",
+      "tier": "MINOR",
+      "prize": 10.26
+    },
+    {
+      "ts": 1779234849743,
+      "name": "mipi4",
+      "tier": "MINOR",
+      "prize": 10.24
+    },
+    {
+      "ts": 1779234295232,
+      "name": "CNPcorpness",
+      "tier": "MINOR",
+      "prize": 10.25
+    },
+    {
+      "ts": 1779231449274,
+      "name": "S3XBUSTER",
+      "tier": "MAJOR",
+      "prize": 51.21
+    },
+    {
+      "ts": 1779226804552,
+      "name": "Janu90",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779225572933,
+      "name": "ofortuna34",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779222682973,
+      "name": "TrungPhan",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779220478357,
+      "name": "kitotp",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779219980841,
+      "name": "ofortuna34",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779214765336,
+      "name": "mipi4",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779211882615,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779211565285,
+      "name": "Janu90",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779211453734,
+      "name": "ofortuna34",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779207410665,
+      "name": "MoneyMachine",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779204714257,
+      "name": "MoneyMachine",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779203096377,
+      "name": "batten.ron",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779202065868,
+      "name": "Linder",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
+    {
+      "ts": 1779200788790,
+      "name": "capoeira",
+      "tier": "MINOR",
+      "prize": 10.28
+    },
     {
       "ts": 1779187841547,
       "name": "CNMBi",
@@ -43,9 +226,9 @@
     "CNPcorpness": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.51
+      "MINOR": 3,
+      "total": 3,
+      "totalPrize": 31.02
     },
     "dragmyn": {
       "MEGA": 0,
@@ -60,7 +243,133 @@
       "MINOR": 1,
       "total": 1,
       "totalPrize": 10.52
+    },
+    "capoeira": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.28
+    },
+    "Linder": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.28
+    },
+    "batten.ron": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.28
+    },
+    "MoneyMachine": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 3,
+      "total": 3,
+      "totalPrize": 30.7
+    },
+    "ofortuna34": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 3,
+      "total": 3,
+      "totalPrize": 30.84
+    },
+    "Janu90": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 20.56
+    },
+    "magickaito": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.28
+    },
+    "mipi4": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 20.52
+    },
+    "kitotp": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.28
+    },
+    "TrungPhan": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.28
+    },
+    "S3XBUSTER": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 51.21
+    },
+    "oxnoc": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 20.51
+    },
+    "sorsae": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 51.02
+    },
+    "Trandan": {
+      "MEGA": 0,
+      "MAJOR": 2,
+      "MINOR": 1,
+      "total": 3,
+      "totalPrize": 111.71
+    },
+    "_KRIT": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.17
+    },
+    "GordoPity": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.2
+    },
+    "axiehub-peru.ron": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.19
+    },
+    "MEGAblessing": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 10.15
     }
   },
-  "lastTs": 1779187841547
+  "lastTs": 1779258657874
 }
