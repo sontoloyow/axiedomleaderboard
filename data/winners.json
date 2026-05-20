@@ -1,13 +1,13 @@
 {
-  "savedAt": "2026-05-20T07:55:01.424Z",
+  "savedAt": "2026-05-20T08:55:01.706Z",
   "jackpot": {
-    "poolUSDT": 10164.732711,
-    "balanceWei": "10164732711",
-    "totalAdded": 36279.9,
+    "poolUSDT": 10181.532711,
+    "balanceWei": "10181532711",
+    "totalAdded": 36296.7,
     "totalPaid": 31115.17,
-    "mega": 203.29,
-    "major": 50.82,
-    "minor": 10.16
+    "mega": 203.63,
+    "major": 50.91,
+    "minor": 10.18
   },
   "log": [
     {

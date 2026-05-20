@@ -1,12 +1,12 @@
 {
   "weekNumber": 16,
-  "savedAt": "2026-05-20T07:55:00.826Z",
+  "savedAt": "2026-05-20T08:55:01.129Z",
   "pool": {
-    "poolUSDT": 8388,
-    "totalTreasure": 12475672,
+    "poolUSDT": 8421.6,
+    "totalTreasure": 12518540,
     "weekNumber": 16,
     "weekEnd": "2026-05-22T16:00:00.000Z",
-    "total": 282
+    "total": 284
   },
   "players": [
     {
@@ -19,9 +19,9 @@
       "marbles": 37765,
       "runCount": 74,
       "totalKeysSpent": 1160,
-      "payout": 1772.5192,
+      "payout": 1773.5254,
       "cost": 2320,
-      "earning": -547.4808,
+      "earning": -546.4746,
       "keysDiff": 0
     },
     {
@@ -34,9 +34,9 @@
       "marbles": 21135,
       "runCount": 54,
       "totalKeysSpent": 805,
-      "payout": 1439.31,
+      "payout": 1440.127,
       "cost": 1610,
-      "earning": -170.69,
+      "earning": -169.873,
       "keysDiff": 0
     },
     {
@@ -49,9 +49,9 @@
       "marbles": 5705,
       "runCount": 42,
       "totalKeysSpent": 210,
-      "payout": 333.5252,
+      "payout": 333.7145,
       "cost": 420,
-      "earning": -86.4748,
+      "earning": -86.2855,
       "keysDiff": 0
     },
     {
@@ -64,9 +64,9 @@
       "marbles": 4446,
       "runCount": 200,
       "totalKeysSpent": 200,
-      "payout": 260.8027,
+      "payout": 260.9507,
       "cost": 400,
-      "earning": -139.1973,
+      "earning": -139.0493,
       "keysDiff": 0
     },
     {
@@ -79,13 +79,28 @@
       "marbles": 2872,
       "runCount": 12,
       "totalKeysSpent": 100,
-      "payout": 151.0518,
+      "payout": 151.1376,
       "cost": 200,
-      "earning": -48.9482,
+      "earning": -48.8624,
       "keysDiff": 0
     },
     {
       "rank": 6,
+      "address": "0x6ac591538e6f5331af82a604d03dba4c54b572a2",
+      "profileName": "Trandan",
+      "profilePictureUrl": null,
+      "equippedSkin": 3,
+      "treasure": 224516,
+      "marbles": 2610,
+      "runCount": 128,
+      "totalKeysSpent": 128,
+      "payout": 151.0387,
+      "cost": 256,
+      "earning": -104.9613,
+      "keysDiff": 1
+    },
+    {
+      "rank": 7,
       "address": "0x7ef47c6a1377c7c98c9bc536b88bacace45b866e",
       "profileName": "zaebok.ron",
       "profilePictureUrl": null,
@@ -94,24 +109,9 @@
       "marbles": 2749,
       "runCount": 10,
       "totalKeysSpent": 131,
-      "payout": 148.6858,
+      "payout": 148.7702,
       "cost": 262,
-      "earning": -113.3142,
-      "keysDiff": 0
-    },
-    {
-      "rank": 7,
-      "address": "0x6ac591538e6f5331af82a604d03dba4c54b572a2",
-      "profileName": "Trandan",
-      "profilePictureUrl": null,
-      "equippedSkin": 3,
-      "treasure": 219886,
-      "marbles": 2571,
-      "runCount": 125,
-      "totalKeysSpent": 125,
-      "payout": 147.84,
-      "cost": 250,
-      "earning": -102.16,
+      "earning": -113.2298,
       "keysDiff": 0
     },
     {
@@ -124,9 +124,9 @@
       "marbles": 2775,
       "runCount": 143,
       "totalKeysSpent": 143,
-      "payout": 132.6503,
+      "payout": 132.7256,
       "cost": 286,
-      "earning": -153.3497,
+      "earning": -153.2744,
       "keysDiff": 0
     },
     {
@@ -139,9 +139,9 @@
       "marbles": 2558,
       "runCount": 109,
       "totalKeysSpent": 109,
-      "payout": 131.3655,
+      "payout": 131.44,
       "cost": 218,
-      "earning": -86.6345,
+      "earning": -86.56,
       "keysDiff": 0
     },
     {
@@ -154,9 +154,9 @@
       "marbles": 1889,
       "runCount": 98,
       "totalKeysSpent": 98,
-      "payout": 128.9786,
+      "payout": 129.0519,
       "cost": 196,
-      "earning": -67.0214,
+      "earning": -66.9481,
       "keysDiff": 0
     },
     {
@@ -169,9 +169,9 @@
       "marbles": 2587,
       "runCount": 111,
       "totalKeysSpent": 112,
-      "payout": 119.6464,
+      "payout": 119.7144,
       "cost": 224,
-      "earning": -104.3536,
+      "earning": -104.2856,
       "keysDiff": 0
     },
     {
@@ -180,13 +180,13 @@
       "profileName": "magickaito",
       "profilePictureUrl": null,
       "equippedSkin": 3,
-      "treasure": 139652,
-      "marbles": 1431,
-      "runCount": 59,
-      "totalKeysSpent": 59,
-      "payout": 93.8948,
-      "cost": 118,
-      "earning": -24.1052,
+      "treasure": 141897,
+      "marbles": 1449,
+      "runCount": 60,
+      "totalKeysSpent": 60,
+      "payout": 95.4584,
+      "cost": 120,
+      "earning": -24.5416,
       "keysDiff": 0
     },
     {
@@ -199,9 +199,9 @@
       "marbles": 1837,
       "runCount": 32,
       "totalKeysSpent": 88,
-      "payout": 91.986,
+      "payout": 92.0382,
       "cost": 176,
-      "earning": -84.014,
+      "earning": -83.9618,
       "keysDiff": 0
     },
     {
@@ -214,9 +214,9 @@
       "marbles": 1990,
       "runCount": 83,
       "totalKeysSpent": 83,
-      "payout": 91.6277,
+      "payout": 91.6797,
       "cost": 166,
-      "earning": -74.3723,
+      "earning": -74.3203,
       "keysDiff": 0
     },
     {
@@ -229,9 +229,9 @@
       "marbles": 2120,
       "runCount": 4,
       "totalKeysSpent": 95,
-      "payout": 79.6868,
+      "payout": 79.732,
       "cost": 190,
-      "earning": -110.3132,
+      "earning": -110.268,
       "keysDiff": 0
     },
     {
@@ -244,9 +244,9 @@
       "marbles": 1432,
       "runCount": 80,
       "totalKeysSpent": 85,
-      "payout": 79.3889,
+      "payout": 79.434,
       "cost": 170,
-      "earning": -90.6111,
+      "earning": -90.566,
       "keysDiff": 0
     },
     {
@@ -259,9 +259,9 @@
       "marbles": 1579,
       "runCount": 86,
       "totalKeysSpent": 86,
-      "payout": 78.5209,
+      "payout": 78.5655,
       "cost": 172,
-      "earning": -93.4791,
+      "earning": -93.4345,
       "keysDiff": 0
     },
     {
@@ -274,9 +274,9 @@
       "marbles": 888,
       "runCount": 67,
       "totalKeysSpent": 67,
-      "payout": 72.26,
+      "payout": 72.301,
       "cost": 134,
-      "earning": -61.74,
+      "earning": -61.699,
       "keysDiff": 0
     },
     {
@@ -289,9 +289,9 @@
       "marbles": 1569,
       "runCount": 87,
       "totalKeysSpent": 87,
-      "payout": 72.1423,
+      "payout": 72.1833,
       "cost": 174,
-      "earning": -101.8577,
+      "earning": -101.8167,
       "keysDiff": 0
     },
     {
@@ -304,9 +304,9 @@
       "marbles": 1611,
       "runCount": 19,
       "totalKeysSpent": 80,
-      "payout": 72.0959,
+      "payout": 72.1369,
       "cost": 160,
-      "earning": -87.9041,
+      "earning": -87.8631,
       "keysDiff": 0
     },
     {
@@ -319,39 +319,39 @@
       "marbles": 1526,
       "runCount": 84,
       "totalKeysSpent": 84,
-      "payout": 71.6912,
+      "payout": 71.7319,
       "cost": 168,
-      "earning": -96.3088,
+      "earning": -96.2681,
       "keysDiff": 0
     },
     {
       "rank": 22,
-      "address": "0x6cd4f9b272a837e96bf41c8a789efe03fd8d1287",
-      "profileName": "hgfhjy",
-      "profilePictureUrl": null,
-      "equippedSkin": 3,
-      "treasure": 103318,
-      "marbles": 989,
-      "runCount": 58,
-      "totalKeysSpent": 58,
-      "payout": 69.4657,
-      "cost": 116,
-      "earning": -46.5343,
-      "keysDiff": 0
-    },
-    {
-      "rank": 23,
       "address": "0x39b8ac768597d50ef7270306995e2816b5ad5386",
       "profileName": "TieuYet",
       "profilePictureUrl": null,
       "equippedSkin": 7,
-      "treasure": 101743,
-      "marbles": 1137,
-      "runCount": 51,
-      "totalKeysSpent": 51,
-      "payout": 68.4068,
-      "cost": 102,
-      "earning": -33.5932,
+      "treasure": 104976,
+      "marbles": 1157,
+      "runCount": 52,
+      "totalKeysSpent": 52,
+      "payout": 70.6205,
+      "cost": 104,
+      "earning": -33.3795,
+      "keysDiff": 0
+    },
+    {
+      "rank": 23,
+      "address": "0x6cd4f9b272a837e96bf41c8a789efe03fd8d1287",
+      "profileName": "hgfhjy",
+      "profilePictureUrl": null,
+      "equippedSkin": 3,
+      "treasure": 104454,
+      "marbles": 1001,
+      "runCount": 59,
+      "totalKeysSpent": 59,
+      "payout": 70.2694,
+      "cost": 118,
+      "earning": -47.7306,
       "keysDiff": 0
     },
     {
@@ -364,9 +364,9 @@
       "marbles": 1144,
       "runCount": 50,
       "totalKeysSpent": 50,
-      "payout": 67.4547,
+      "payout": 67.493,
       "cost": 100,
-      "earning": -32.5453,
+      "earning": -32.507,
       "keysDiff": 0
     },
     {
@@ -379,9 +379,9 @@
       "marbles": 1161,
       "runCount": 53,
       "totalKeysSpent": 53,
-      "payout": 64.8823,
+      "payout": 64.9191,
       "cost": 106,
-      "earning": -41.1177,
+      "earning": -41.0809,
       "keysDiff": 0
     },
     {
@@ -394,9 +394,9 @@
       "marbles": 1409,
       "runCount": 51,
       "totalKeysSpent": 51,
-      "payout": 64.3868,
+      "payout": 64.4233,
       "cost": 102,
-      "earning": -37.6132,
+      "earning": -37.5767,
       "keysDiff": 0
     },
     {
@@ -409,9 +409,9 @@
       "marbles": 950,
       "runCount": 25,
       "totalKeysSpent": 46,
-      "payout": 63.0374,
+      "payout": 63.0732,
       "cost": 92,
-      "earning": -28.9626,
+      "earning": -28.9268,
       "keysDiff": 0
     },
     {
@@ -424,9 +424,9 @@
       "marbles": 932,
       "runCount": 50,
       "totalKeysSpent": 50,
-      "payout": 53.9782,
+      "payout": 54.0088,
       "cost": 100,
-      "earning": -46.0218,
+      "earning": -45.9912,
       "keysDiff": 0
     },
     {
@@ -439,9 +439,9 @@
       "marbles": 864,
       "runCount": 37,
       "totalKeysSpent": 37,
-      "payout": 52.7074,
+      "payout": 52.7373,
       "cost": 74,
-      "earning": -21.2926,
+      "earning": -21.2627,
       "keysDiff": 0
     },
     {
@@ -454,9 +454,9 @@
       "marbles": 911,
       "runCount": 38,
       "totalKeysSpent": 38,
-      "payout": 51.3365,
+      "payout": 51.3656,
       "cost": 76,
-      "earning": -24.6635,
+      "earning": -24.6344,
       "keysDiff": 0
     },
     {
@@ -469,9 +469,9 @@
       "marbles": 1028,
       "runCount": 37,
       "totalKeysSpent": 37,
-      "payout": 50.5922,
+      "payout": 50.6209,
       "cost": 74,
-      "earning": -23.4078,
+      "earning": -23.3791,
       "keysDiff": 0
     },
     {
@@ -484,9 +484,9 @@
       "marbles": 793,
       "runCount": 44,
       "totalKeysSpent": 44,
-      "payout": 49.4896,
+      "payout": 49.5177,
       "cost": 88,
-      "earning": -38.5104,
+      "earning": -38.4823,
       "keysDiff": 0
     },
     {
@@ -499,9 +499,9 @@
       "marbles": 798,
       "runCount": 3,
       "totalKeysSpent": 31,
-      "payout": 49.0303,
+      "payout": 49.0582,
       "cost": 62,
-      "earning": -12.9697,
+      "earning": -12.9418,
       "keysDiff": 0
     },
     {
@@ -514,9 +514,9 @@
       "marbles": 835,
       "runCount": 30,
       "totalKeysSpent": 30,
-      "payout": 48.8233,
+      "payout": 48.851,
       "cost": 60,
-      "earning": -11.1767,
+      "earning": -11.149,
       "keysDiff": 0
     },
     {
@@ -529,9 +529,9 @@
       "marbles": 1165,
       "runCount": 8,
       "totalKeysSpent": 38,
-      "payout": 47.2964,
+      "payout": 47.3232,
       "cost": 76,
-      "earning": -28.7036,
+      "earning": -28.6768,
       "keysDiff": 0
     },
     {
@@ -544,9 +544,9 @@
       "marbles": 755,
       "runCount": 67,
       "totalKeysSpent": 67,
-      "payout": 45.0783,
+      "payout": 45.1039,
       "cost": 134,
-      "earning": -88.9217,
+      "earning": -88.8961,
       "keysDiff": 0
     },
     {
@@ -559,9 +559,9 @@
       "marbles": 875,
       "runCount": 5,
       "totalKeysSpent": 30,
-      "payout": 43.3228,
+      "payout": 43.3474,
       "cost": 60,
-      "earning": -16.6772,
+      "earning": -16.6526,
       "keysDiff": 0
     },
     {
@@ -574,9 +574,9 @@
       "marbles": 812,
       "runCount": 33,
       "totalKeysSpent": 34,
-      "payout": 43.0572,
+      "payout": 43.0816,
       "cost": 68,
-      "earning": -24.9428,
+      "earning": -24.9184,
       "keysDiff": 0
     },
     {
@@ -589,13 +589,28 @@
       "marbles": 775,
       "runCount": 35,
       "totalKeysSpent": 35,
-      "payout": 42.6632,
+      "payout": 42.6874,
       "cost": 70,
-      "earning": -27.3368,
+      "earning": -27.3126,
       "keysDiff": 0
     },
     {
       "rank": 40,
+      "address": "0x0578814ba3b0e649ecc0088945433451d8201e2a",
+      "profileName": "capoeira",
+      "profilePictureUrl": null,
+      "equippedSkin": 3,
+      "treasure": 61814,
+      "marbles": 760,
+      "runCount": 45,
+      "totalKeysSpent": 45,
+      "payout": 41.5841,
+      "cost": 90,
+      "earning": -48.4159,
+      "keysDiff": 0
+    },
+    {
+      "rank": 41,
       "address": "0x28c33700dfdec525cee51ce5265ef4d092b44011",
       "profileName": "dragmyn",
       "profilePictureUrl": null,
@@ -604,24 +619,9 @@
       "marbles": 772,
       "runCount": 42,
       "totalKeysSpent": 42,
-      "payout": 40.9991,
+      "payout": 41.0224,
       "cost": 84,
-      "earning": -43.0009,
-      "keysDiff": 0
-    },
-    {
-      "rank": 41,
-      "address": "0x0578814ba3b0e649ecc0088945433451d8201e2a",
-      "profileName": "capoeira",
-      "profilePictureUrl": null,
-      "equippedSkin": 3,
-      "treasure": 58300,
-      "marbles": 740,
-      "runCount": 43,
-      "totalKeysSpent": 43,
-      "payout": 39.1979,
-      "cost": 86,
-      "earning": -46.8021,
+      "earning": -42.9776,
       "keysDiff": 0
     },
     {
@@ -634,9 +634,9 @@
       "marbles": 765,
       "runCount": 26,
       "totalKeysSpent": 60,
-      "payout": 39.052,
+      "payout": 39.0742,
       "cost": 120,
-      "earning": -80.948,
+      "earning": -80.9258,
       "keysDiff": 0
     },
     {
@@ -645,13 +645,13 @@
       "profileName": "MEGAblessing",
       "profilePictureUrl": null,
       "equippedSkin": 1,
-      "treasure": 56713,
-      "marbles": 675,
-      "runCount": 42,
-      "totalKeysSpent": 42,
-      "payout": 38.1309,
-      "cost": 84,
-      "earning": -45.8691,
+      "treasure": 57945,
+      "marbles": 687,
+      "runCount": 43,
+      "totalKeysSpent": 43,
+      "payout": 38.9814,
+      "cost": 86,
+      "earning": -47.0186,
       "keysDiff": 0
     },
     {
@@ -664,9 +664,9 @@
       "marbles": 525,
       "runCount": 28,
       "totalKeysSpent": 28,
-      "payout": 35.7474,
+      "payout": 35.7677,
       "cost": 56,
-      "earning": -20.2526,
+      "earning": -20.2323,
       "keysDiff": 0
     },
     {
@@ -679,9 +679,9 @@
       "marbles": 809,
       "runCount": 26,
       "totalKeysSpent": 59,
-      "payout": 35.5148,
+      "payout": 35.535,
       "cost": 118,
-      "earning": -82.4852,
+      "earning": -82.465,
       "keysDiff": 0
     },
     {
@@ -694,9 +694,9 @@
       "marbles": 531,
       "runCount": 30,
       "totalKeysSpent": 31,
-      "payout": 35.2902,
+      "payout": 35.3103,
       "cost": 62,
-      "earning": -26.7098,
+      "earning": -26.6897,
       "keysDiff": 0
     },
     {
@@ -709,9 +709,9 @@
       "marbles": 553,
       "runCount": 33,
       "totalKeysSpent": 44,
-      "payout": 34.6367,
+      "payout": 34.6564,
       "cost": 88,
-      "earning": -53.3633,
+      "earning": -53.3436,
       "keysDiff": 0
     },
     {
@@ -724,9 +724,9 @@
       "marbles": 750,
       "runCount": 43,
       "totalKeysSpent": 43,
-      "payout": 34.4424,
+      "payout": 34.462,
       "cost": 86,
-      "earning": -51.5576,
+      "earning": -51.538,
       "keysDiff": 0
     },
     {
@@ -739,13 +739,43 @@
       "marbles": 430,
       "runCount": 23,
       "totalKeysSpent": 24,
-      "payout": 33.1475,
+      "payout": 33.1663,
       "cost": 48,
-      "earning": -14.8525,
+      "earning": -14.8337,
       "keysDiff": 0
     },
     {
       "rank": 50,
+      "address": "0x5c9329bf63ecd8bb3ba22155acab0f6b3383a84e",
+      "profileName": "Jammerhead",
+      "profilePictureUrl": null,
+      "equippedSkin": 6,
+      "treasure": 45758,
+      "marbles": 589,
+      "runCount": 30,
+      "totalKeysSpent": 30,
+      "payout": 30.7828,
+      "cost": 60,
+      "earning": -29.2172,
+      "keysDiff": 0
+    },
+    {
+      "rank": 51,
+      "address": "0xf90554e0730a19d2962b6b0f6c2b0443385fe4f4",
+      "profileName": "lmrcnl",
+      "profilePictureUrl": null,
+      "equippedSkin": 3,
+      "treasure": 45087,
+      "marbles": 514,
+      "runCount": 28,
+      "totalKeysSpent": 28,
+      "payout": 30.3314,
+      "cost": 56,
+      "earning": -25.6686,
+      "keysDiff": 0
+    },
+    {
+      "rank": 52,
       "address": "0xdf32a970603e84dee81011554d0a3ee288b03f5c",
       "profileName": "FloWrin",
       "profilePictureUrl": null,
@@ -754,13 +784,13 @@
       "marbles": 636,
       "runCount": 46,
       "totalKeysSpent": 46,
-      "payout": 30.1918,
+      "payout": 30.2089,
       "cost": 92,
-      "earning": -61.8082,
+      "earning": -61.7911,
       "keysDiff": 0
     },
     {
-      "rank": 51,
+      "rank": 53,
       "address": "0xd79ac5d47dc7d6037cb57ce80bfe08aab671014b",
       "profileName": "rojan.ron",
       "profilePictureUrl": null,
@@ -769,13 +799,13 @@
       "marbles": 519,
       "runCount": 32,
       "totalKeysSpent": 32,
-      "payout": 29.8832,
+      "payout": 29.9002,
       "cost": 64,
-      "earning": -34.1168,
+      "earning": -34.0998,
       "keysDiff": 0
     },
     {
-      "rank": 52,
+      "rank": 54,
       "address": "0xb24e484c32f69403a883d3ba181253e5a461a594",
       "profileName": "DoubleD",
       "profilePictureUrl": null,
@@ -784,28 +814,13 @@
       "marbles": 485,
       "runCount": 30,
       "totalKeysSpent": 30,
-      "payout": 29.6351,
+      "payout": 29.6519,
       "cost": 60,
-      "earning": -30.3649,
+      "earning": -30.3481,
       "keysDiff": 0
     },
     {
-      "rank": 53,
-      "address": "0xf90554e0730a19d2962b6b0f6c2b0443385fe4f4",
-      "profileName": "lmrcnl",
-      "profilePictureUrl": null,
-      "equippedSkin": 3,
-      "treasure": 42816,
-      "marbles": 498,
-      "runCount": 27,
-      "totalKeysSpent": 27,
-      "payout": 28.7873,
-      "cost": 54,
-      "earning": -25.2127,
-      "keysDiff": 0
-    },
-    {
-      "rank": 54,
+      "rank": 55,
       "address": "0x137c41a2dfa5522bc768ca769e8954a6de3a82c5",
       "profileName": "dencioacosta.ron",
       "profilePictureUrl": null,
@@ -814,13 +829,13 @@
       "marbles": 538,
       "runCount": 21,
       "totalKeysSpent": 21,
-      "payout": 28.5876,
+      "payout": 28.6038,
       "cost": 42,
-      "earning": -13.4124,
+      "earning": -13.3962,
       "keysDiff": 0
     },
     {
-      "rank": 55,
+      "rank": 56,
       "address": "0xaf946b36f47c8e1d9453057810f2fc5bc1828e57",
       "profileName": "Jonsnow",
       "profilePictureUrl": null,
@@ -829,24 +844,9 @@
       "marbles": 550,
       "runCount": 20,
       "totalKeysSpent": 24,
-      "payout": 26.3487,
+      "payout": 26.3636,
       "cost": 48,
-      "earning": -21.6513,
-      "keysDiff": 0
-    },
-    {
-      "rank": 56,
-      "address": "0x5c9329bf63ecd8bb3ba22155acab0f6b3383a84e",
-      "profileName": "Jammerhead",
-      "profilePictureUrl": null,
-      "equippedSkin": 6,
-      "treasure": 38845,
-      "marbles": 509,
-      "runCount": 25,
-      "totalKeysSpent": 25,
-      "payout": 26.1174,
-      "cost": 50,
-      "earning": -23.8826,
+      "earning": -21.6364,
       "keysDiff": 0
     },
     {
@@ -859,9 +859,9 @@
       "marbles": 549,
       "runCount": 16,
       "totalKeysSpent": 25,
-      "payout": 25.9607,
+      "payout": 25.9755,
       "cost": 50,
-      "earning": -24.0393,
+      "earning": -24.0245,
       "keysDiff": 0
     },
     {
@@ -874,9 +874,9 @@
       "marbles": 549,
       "runCount": 14,
       "totalKeysSpent": 46,
-      "payout": 25.2635,
+      "payout": 25.2778,
       "cost": 92,
-      "earning": -66.7365,
+      "earning": -66.7222,
       "keysDiff": 0
     },
     {
@@ -889,9 +889,9 @@
       "marbles": 503,
       "runCount": 19,
       "totalKeysSpent": 21,
-      "payout": 24.4439,
+      "payout": 24.4578,
       "cost": 42,
-      "earning": -17.5561,
+      "earning": -17.5422,
       "keysDiff": 0
     },
     {
@@ -904,9 +904,9 @@
       "marbles": 463,
       "runCount": 26,
       "totalKeysSpent": 26,
-      "payout": 24.3195,
+      "payout": 24.3333,
       "cost": 52,
-      "earning": -27.6805,
+      "earning": -27.6667,
       "keysDiff": 0
     },
     {
@@ -919,9 +919,9 @@
       "marbles": 382,
       "runCount": 17,
       "totalKeysSpent": 18,
-      "payout": 23.8395,
+      "payout": 23.853,
       "cost": 36,
-      "earning": -12.1605,
+      "earning": -12.147,
       "keysDiff": 0
     },
     {
@@ -930,13 +930,13 @@
       "profileName": "PIQIf0e2",
       "profilePictureUrl": null,
       "equippedSkin": 2,
-      "treasure": 32606,
-      "marbles": 376,
-      "runCount": 17,
-      "totalKeysSpent": 18,
-      "payout": 21.9226,
-      "cost": 36,
-      "earning": -14.0774,
+      "treasure": 34059,
+      "marbles": 383,
+      "runCount": 18,
+      "totalKeysSpent": 19,
+      "payout": 22.9125,
+      "cost": 38,
+      "earning": -15.0875,
       "keysDiff": 0
     },
     {
@@ -949,9 +949,9 @@
       "marbles": 457,
       "runCount": 22,
       "totalKeysSpent": 22,
-      "payout": 21.8917,
+      "payout": 21.9041,
       "cost": 44,
-      "earning": -22.1083,
+      "earning": -22.0959,
       "keysDiff": 0
     },
     {
@@ -964,9 +964,9 @@
       "marbles": 389,
       "runCount": 15,
       "totalKeysSpent": 27,
-      "payout": 21.7969,
+      "payout": 21.8092,
       "cost": 54,
-      "earning": -32.2031,
+      "earning": -32.1908,
       "keysDiff": 0
     },
     {
@@ -979,9 +979,9 @@
       "marbles": 479,
       "runCount": 29,
       "totalKeysSpent": 29,
-      "payout": 21.458,
+      "payout": 21.4702,
       "cost": 58,
-      "earning": -36.542,
+      "earning": -36.5298,
       "keysDiff": 0
     },
     {
@@ -994,9 +994,9 @@
       "marbles": 436,
       "runCount": 21,
       "totalKeysSpent": 21,
-      "payout": 21.4237,
+      "payout": 21.4359,
       "cost": 42,
-      "earning": -20.5763,
+      "earning": -20.5641,
       "keysDiff": 0
     },
     {
@@ -1009,9 +1009,9 @@
       "marbles": 570,
       "runCount": 39,
       "totalKeysSpent": 41,
-      "payout": 21.146,
+      "payout": 21.158,
       "cost": 82,
-      "earning": -60.854,
+      "earning": -60.842,
       "keysDiff": 0
     },
     {
@@ -1024,9 +1024,9 @@
       "marbles": 371,
       "runCount": 22,
       "totalKeysSpent": 22,
-      "payout": 20.7695,
+      "payout": 20.7813,
       "cost": 44,
-      "earning": -23.2305,
+      "earning": -23.2187,
       "keysDiff": 0
     },
     {
@@ -1039,9 +1039,9 @@
       "marbles": 477,
       "runCount": 23,
       "totalKeysSpent": 23,
-      "payout": 20.3614,
+      "payout": 20.373,
       "cost": 46,
-      "earning": -25.6386,
+      "earning": -25.627,
       "keysDiff": 0
     },
     {
@@ -1054,9 +1054,9 @@
       "marbles": 299,
       "runCount": 24,
       "totalKeysSpent": 24,
-      "payout": 19.9123,
+      "payout": 19.9236,
       "cost": 48,
-      "earning": -28.0877,
+      "earning": -28.0764,
       "keysDiff": 0
     },
     {
@@ -1069,9 +1069,9 @@
       "marbles": 386,
       "runCount": 5,
       "totalKeysSpent": 25,
-      "payout": 19.3515,
+      "payout": 19.3625,
       "cost": 50,
-      "earning": -30.6485,
+      "earning": -30.6375,
       "keysDiff": 0
     },
     {
@@ -1084,9 +1084,9 @@
       "marbles": 290,
       "runCount": 19,
       "totalKeysSpent": 19,
-      "payout": 19.0019,
+      "payout": 19.0127,
       "cost": 38,
-      "earning": -18.9981,
+      "earning": -18.9873,
       "keysDiff": 0
     },
     {
@@ -1099,9 +1099,9 @@
       "marbles": 441,
       "runCount": 23,
       "totalKeysSpent": 23,
-      "payout": 17.8683,
+      "payout": 17.8785,
       "cost": 46,
-      "earning": -28.1317,
+      "earning": -28.1215,
       "keysDiff": 0
     },
     {
@@ -1114,9 +1114,9 @@
       "marbles": 235,
       "runCount": 12,
       "totalKeysSpent": 12,
-      "payout": 17.3264,
+      "payout": 17.3363,
       "cost": 24,
-      "earning": -6.6736,
+      "earning": -6.6637,
       "keysDiff": 0
     },
     {
@@ -1129,9 +1129,9 @@
       "marbles": 221,
       "runCount": 10,
       "totalKeysSpent": 14,
-      "payout": 17.0871,
+      "payout": 17.0968,
       "cost": 28,
-      "earning": -10.9129,
+      "earning": -10.9032,
       "keysDiff": 0
     },
     {
@@ -1144,9 +1144,9 @@
       "marbles": 296,
       "runCount": 21,
       "totalKeysSpent": 27,
-      "payout": 16.4564,
+      "payout": 16.4657,
       "cost": 54,
-      "earning": -37.5436,
+      "earning": -37.5343,
       "keysDiff": 0
     },
     {
@@ -1159,9 +1159,9 @@
       "marbles": 450,
       "runCount": 5,
       "totalKeysSpent": 22,
-      "payout": 15.6731,
+      "payout": 15.682,
       "cost": 44,
-      "earning": -28.3269,
+      "earning": -28.318,
       "keysDiff": 0
     },
     {
@@ -1174,9 +1174,9 @@
       "marbles": 379,
       "runCount": 6,
       "totalKeysSpent": 16,
-      "payout": 15.3605,
+      "payout": 15.3692,
       "cost": 32,
-      "earning": -16.6395,
+      "earning": -16.6308,
       "keysDiff": 0
     },
     {
@@ -1189,9 +1189,9 @@
       "marbles": 263,
       "runCount": 16,
       "totalKeysSpent": 16,
-      "payout": 15.2448,
+      "payout": 15.2535,
       "cost": 32,
-      "earning": -16.7552,
+      "earning": -16.7465,
       "keysDiff": 0
     },
     {
@@ -1204,9 +1204,9 @@
       "marbles": 218,
       "runCount": 7,
       "totalKeysSpent": 12,
-      "payout": 15.1662,
+      "payout": 15.1748,
       "cost": 24,
-      "earning": -8.8338,
+      "earning": -8.8252,
       "keysDiff": 0
     },
     {
@@ -1219,9 +1219,9 @@
       "marbles": 530,
       "runCount": 2,
       "totalKeysSpent": 20,
-      "payout": 15.1615,
+      "payout": 15.1701,
       "cost": 40,
-      "earning": -24.8385,
+      "earning": -24.8299,
       "keysDiff": 0
     },
     {
@@ -1234,9 +1234,9 @@
       "marbles": 240,
       "runCount": 1,
       "totalKeysSpent": 10,
-      "payout": 14.321,
+      "payout": 14.3292,
       "cost": 20,
-      "earning": -5.679,
+      "earning": -5.6708,
       "keysDiff": 0
     },
     {
@@ -1249,9 +1249,9 @@
       "marbles": 169,
       "runCount": 9,
       "totalKeysSpent": 9,
-      "payout": 14.2834,
+      "payout": 14.2915,
       "cost": 18,
-      "earning": -3.7166,
+      "earning": -3.7085,
       "keysDiff": 0
     },
     {
@@ -1264,9 +1264,9 @@
       "marbles": 307,
       "runCount": 15,
       "totalKeysSpent": 15,
-      "payout": 14.0064,
+      "payout": 14.0143,
       "cost": 30,
-      "earning": -15.9936,
+      "earning": -15.9857,
       "keysDiff": 0
     },
     {
@@ -1279,13 +1279,28 @@
       "marbles": 272,
       "runCount": 10,
       "totalKeysSpent": 11,
-      "payout": 13.886,
+      "payout": 13.8939,
       "cost": 22,
-      "earning": -8.114,
+      "earning": -8.1061,
       "keysDiff": 0
     },
     {
       "rank": 86,
+      "address": "0xc4127caedb97ec0489e4d078cc10d79673fdf4f9",
+      "profileName": "vuongdung1198",
+      "profilePictureUrl": null,
+      "equippedSkin": 3,
+      "treasure": 20490,
+      "marbles": 240,
+      "runCount": 19,
+      "totalKeysSpent": 19,
+      "payout": 13.7842,
+      "cost": 38,
+      "earning": -24.2158,
+      "keysDiff": 0
+    },
+    {
+      "rank": 87,
       "address": "0xb6b4c186e3269192094a473ef06a4bdb9c85b262",
       "profileName": "oxnoc",
       "profilePictureUrl": null,
@@ -1294,13 +1309,13 @@
       "marbles": 235,
       "runCount": 13,
       "totalKeysSpent": 13,
-      "payout": 13.5841,
+      "payout": 13.5918,
       "cost": 26,
-      "earning": -12.4159,
+      "earning": -12.4082,
       "keysDiff": 0
     },
     {
-      "rank": 87,
+      "rank": 88,
       "address": "0xbd1396038102425d128c246aacd17e619d01a025",
       "profileName": "kuakua",
       "profilePictureUrl": null,
@@ -1309,13 +1324,13 @@
       "marbles": 277,
       "runCount": 7,
       "totalKeysSpent": 12,
-      "payout": 13.2695,
+      "payout": 13.277,
       "cost": 24,
-      "earning": -10.7305,
+      "earning": -10.723,
       "keysDiff": 0
     },
     {
-      "rank": 88,
+      "rank": 89,
       "address": "0x7c69b1e78e2ce493f9b33e523df2864873beb1e4",
       "profileName": "mrbask.ron",
       "profilePictureUrl": null,
@@ -1324,13 +1339,13 @@
       "marbles": 328,
       "runCount": 13,
       "totalKeysSpent": 13,
-      "payout": 12.6489,
+      "payout": 12.6561,
       "cost": 26,
-      "earning": -13.3511,
+      "earning": -13.3439,
       "keysDiff": 0
     },
     {
-      "rank": 89,
+      "rank": 90,
       "address": "0xa9c60c2e027e53d383b6a2ee49f679c1232da0e9",
       "profileName": "hdhhbg5",
       "profilePictureUrl": null,
@@ -1339,13 +1354,13 @@
       "marbles": 122,
       "runCount": 8,
       "totalKeysSpent": 8,
-      "payout": 12.5319,
+      "payout": 12.539,
       "cost": 16,
-      "earning": -3.4681,
+      "earning": -3.461,
       "keysDiff": 0
     },
     {
-      "rank": 90,
+      "rank": 91,
       "address": "0xc81c0dfbc048b478e70f3c74a1cae7cce1436748",
       "profileName": "tse000.ron",
       "profilePictureUrl": null,
@@ -1354,13 +1369,13 @@
       "marbles": 221,
       "runCount": 11,
       "totalKeysSpent": 11,
-      "payout": 12.4042,
+      "payout": 12.4112,
       "cost": 22,
-      "earning": -9.5958,
+      "earning": -9.5888,
       "keysDiff": 0
     },
     {
-      "rank": 91,
+      "rank": 92,
       "address": "0x622dcf78d89e578381609cb22077171cc6c53336",
       "profileName": "1rdge",
       "profilePictureUrl": null,
@@ -1369,24 +1384,9 @@
       "marbles": 115,
       "runCount": 7,
       "totalKeysSpent": 7,
-      "payout": 12.2717,
+      "payout": 12.2787,
       "cost": 14,
-      "earning": -1.7283,
-      "keysDiff": 0
-    },
-    {
-      "rank": 92,
-      "address": "0xc4127caedb97ec0489e4d078cc10d79673fdf4f9",
-      "profileName": "vuongdung1198",
-      "profilePictureUrl": null,
-      "equippedSkin": 3,
-      "treasure": 18016,
-      "marbles": 205,
-      "runCount": 16,
-      "totalKeysSpent": 16,
-      "payout": 12.113,
-      "cost": 32,
-      "earning": -19.887,
+      "earning": -1.7213,
       "keysDiff": 0
     },
     {
@@ -1399,9 +1399,9 @@
       "marbles": 262,
       "runCount": 10,
       "totalKeysSpent": 10,
-      "payout": 12.0922,
+      "payout": 12.0991,
       "cost": 20,
-      "earning": -7.9078,
+      "earning": -7.9009,
       "keysDiff": 0
     },
     {
@@ -1414,9 +1414,9 @@
       "marbles": 250,
       "runCount": 1,
       "totalKeysSpent": 10,
-      "payout": 12.0619,
+      "payout": 12.0688,
       "cost": 20,
-      "earning": -7.9381,
+      "earning": -7.9312,
       "keysDiff": 0
     },
     {
@@ -1429,9 +1429,9 @@
       "marbles": 204,
       "runCount": 15,
       "totalKeysSpent": 17,
-      "payout": 11.9665,
+      "payout": 11.9733,
       "cost": 34,
-      "earning": -22.0335,
+      "earning": -22.0267,
       "keysDiff": 0
     },
     {
@@ -1444,9 +1444,9 @@
       "marbles": 191,
       "runCount": 11,
       "totalKeysSpent": 11,
-      "payout": 11.1422,
+      "payout": 11.1485,
       "cost": 22,
-      "earning": -10.8578,
+      "earning": -10.8515,
       "keysDiff": 0
     },
     {
@@ -1459,9 +1459,9 @@
       "marbles": 230,
       "runCount": 10,
       "totalKeysSpent": 10,
-      "payout": 11.12,
+      "payout": 11.1263,
       "cost": 20,
-      "earning": -8.88,
+      "earning": -8.8737,
       "keysDiff": 0
     },
     {
@@ -1474,9 +1474,9 @@
       "marbles": 150,
       "runCount": 11,
       "totalKeysSpent": 11,
-      "payout": 10.8847,
+      "payout": 10.8908,
       "cost": 22,
-      "earning": -11.1153,
+      "earning": -11.1092,
       "keysDiff": 0
     },
     {
@@ -1489,9 +1489,9 @@
       "marbles": 393,
       "runCount": 7,
       "totalKeysSpent": 21,
-      "payout": 10.7838,
+      "payout": 10.7899,
       "cost": 42,
-      "earning": -31.2162,
+      "earning": -31.2101,
       "keysDiff": 0
     },
     {
@@ -1504,9 +1504,9 @@
       "marbles": 266,
       "runCount": 21,
       "totalKeysSpent": 21,
-      "payout": 10.73,
+      "payout": 10.7361,
       "cost": 42,
-      "earning": -31.27,
+      "earning": -31.2639,
       "keysDiff": 0
     }
   ]
