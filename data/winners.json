@@ -1,15 +1,585 @@
 {
-  "savedAt": "2026-05-20T08:55:01.706Z",
+  "savedAt": "2026-05-23T04:15:01.961Z",
   "jackpot": {
-    "poolUSDT": 10181.532711,
-    "balanceWei": "10181532711",
-    "totalAdded": 36296.7,
-    "totalPaid": 31115.17,
-    "mega": 203.63,
-    "major": 50.91,
-    "minor": 10.18
+    "poolUSDT": 9721.104497,
+    "balanceWei": "9721104497",
+    "totalAdded": 38289.3,
+    "totalPaid": 33568.2,
+    "mega": 194.42,
+    "major": 48.61,
+    "minor": 9.72
   },
   "log": [
+    {
+      "ts": 1779505716904,
+      "name": "Jammerhead",
+      "tier": "MINOR",
+      "prize": 9.71
+    },
+    {
+      "ts": 1779500943047,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 9.7
+    },
+    {
+      "ts": 1779500414019,
+      "name": "_KRIT",
+      "tier": "MEGA",
+      "prize": 194.12
+    },
+    {
+      "ts": 1779491602507,
+      "name": "Muststopsam",
+      "tier": "MINOR",
+      "prize": 9.84
+    },
+    {
+      "ts": 1779484729020,
+      "name": "ofortuna34",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779483646198,
+      "name": "ofortuna34",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779480900316,
+      "name": "dragmyn",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779480156030,
+      "name": "Muststopsam",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779477127288,
+      "name": "BARCA",
+      "tier": "MINOR",
+      "prize": 9.86
+    },
+    {
+      "ts": 1779472174470,
+      "name": "magickaito",
+      "tier": "MAJOR",
+      "prize": 49.24
+    },
+    {
+      "ts": 1779464977052,
+      "name": "Aldemu",
+      "tier": "MINOR",
+      "prize": 9.85
+    },
+    {
+      "ts": 1779464425216,
+      "name": "p18zy0",
+      "tier": "MINOR",
+      "prize": 9.86
+    },
+    {
+      "ts": 1779462325002,
+      "name": "MEGAblessing",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779461530053,
+      "name": "godlike",
+      "tier": "MAJOR",
+      "prize": 48.89
+    },
+    {
+      "ts": 1779457298398,
+      "name": "mhunhn",
+      "tier": "MINOR",
+      "prize": 9.79
+    },
+    {
+      "ts": 1779456237562,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 9.73
+    },
+    {
+      "ts": 1779450738856,
+      "name": "Kingarmor82",
+      "tier": "MINOR",
+      "prize": 9.64
+    },
+    {
+      "ts": 1779450144412,
+      "name": "mipi4",
+      "tier": "MAJOR",
+      "prize": 48.17
+    },
+    {
+      "ts": 1779449503363,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 9.68
+    },
+    {
+      "ts": 1779440916285,
+      "name": "Tsuki73",
+      "tier": "MINOR",
+      "prize": 9.65
+    },
+    {
+      "ts": 1779437582531,
+      "name": "TieuYet",
+      "tier": "MINOR",
+      "prize": 9.65
+    },
+    {
+      "ts": 1779421356813,
+      "name": "jerryzz",
+      "tier": "MAJOR",
+      "prize": 47.76
+    },
+    {
+      "ts": 1779421239789,
+      "name": "axiehub-peru.ron",
+      "tier": "MAJOR",
+      "prize": 47.76
+    },
+    {
+      "ts": 1779420626802,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 9.6
+    },
+    {
+      "ts": 1779418320258,
+      "name": "Chiquillo",
+      "tier": "MINOR",
+      "prize": 9.6
+    },
+    {
+      "ts": 1779414475427,
+      "name": "Trandan",
+      "tier": "MEGA",
+      "prize": 191.42
+    },
+    {
+      "ts": 1779414199005,
+      "name": "mayab",
+      "tier": "MINOR",
+      "prize": 9.76
+    },
+    {
+      "ts": 1779410538577,
+      "name": "krovarak.ron",
+      "tier": "MINOR",
+      "prize": 9.75
+    },
+    {
+      "ts": 1779406665082,
+      "name": "Muststopsam",
+      "tier": "MINOR",
+      "prize": 9.75
+    },
+    {
+      "ts": 1779398973617,
+      "name": "CNPcorpness",
+      "tier": "MINOR",
+      "prize": 9.71
+    },
+    {
+      "ts": 1779396282565,
+      "name": "dragmyn",
+      "tier": "MINOR",
+      "prize": 9.69
+    },
+    {
+      "ts": 1779395097838,
+      "name": "Muststopsam",
+      "tier": "MAJOR",
+      "prize": 48.49
+    },
+    {
+      "ts": 1779394163210,
+      "name": "HZero",
+      "tier": "MINOR",
+      "prize": 9.73
+    },
+    {
+      "ts": 1779393870600,
+      "name": "CNPcorpness",
+      "tier": "MAJOR",
+      "prize": 48.68
+    },
+    {
+      "ts": 1779392688645,
+      "name": "dragmyn",
+      "tier": "MINOR",
+      "prize": 9.77
+    },
+    {
+      "ts": 1779389582922,
+      "name": "daaps",
+      "tier": "MINOR",
+      "prize": 9.73
+    },
+    {
+      "ts": 1779389351734,
+      "name": "mipi4",
+      "tier": "MAJOR",
+      "prize": 48.7
+    },
+    {
+      "ts": 1779388364604,
+      "name": "mipi4",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779384787456,
+      "name": "capoeira",
+      "tier": "MAJOR",
+      "prize": 48.26
+    },
+    {
+      "ts": 1779381020465,
+      "name": "S3XBUSTER",
+      "tier": "MAJOR",
+      "prize": 48.38
+    },
+    {
+      "ts": 1779378858599,
+      "name": "S3XBUSTER",
+      "tier": "MINOR",
+      "prize": 9.7
+    },
+    {
+      "ts": 1779378222243,
+      "name": "Tsuki73",
+      "tier": "MINOR",
+      "prize": 9.7
+    },
+    {
+      "ts": 1779377230391,
+      "name": "Tsuki73",
+      "tier": "MINOR",
+      "prize": 9.7
+    },
+    {
+      "ts": 1779376656682,
+      "name": "tse000.ron",
+      "tier": "MINOR",
+      "prize": 9.71
+    },
+    {
+      "ts": 1779375770307,
+      "name": "NhutHuynh",
+      "tier": "MEGA",
+      "prize": 194.2
+    },
+    {
+      "ts": 1779371598049,
+      "name": "Mikiluna",
+      "tier": "MINOR",
+      "prize": 9.86
+    },
+    {
+      "ts": 1779368545126,
+      "name": "poti8sei",
+      "tier": "MINOR",
+      "prize": 9.84
+    },
+    {
+      "ts": 1779365482563,
+      "name": "ClyrX",
+      "tier": "MINOR",
+      "prize": 9.84
+    },
+    {
+      "ts": 1779361200070,
+      "name": "mipi4",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779358257109,
+      "name": "Encrypt0x",
+      "tier": "MAJOR",
+      "prize": 49.11
+    },
+    {
+      "ts": 1779356982720,
+      "name": "_KRIT",
+      "tier": "MINOR",
+      "prize": 9.86
+    },
+    {
+      "ts": 1779337583752,
+      "name": "CNPcorpness",
+      "tier": "MINOR",
+      "prize": 9.79
+    },
+    {
+      "ts": 1779334534048,
+      "name": "_KRIT",
+      "tier": "MINOR",
+      "prize": 9.77
+    },
+    {
+      "ts": 1779334271286,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 9.77
+    },
+    {
+      "ts": 1779330426651,
+      "name": "Linder",
+      "tier": "MINOR",
+      "prize": 9.75
+    },
+    {
+      "ts": 1779330167085,
+      "name": "ClyrX",
+      "tier": "MAJOR",
+      "prize": 48.8
+    },
+    {
+      "ts": 1779324827746,
+      "name": "mipi4",
+      "tier": "MINOR",
+      "prize": 9.79
+    },
+    {
+      "ts": 1779319927634,
+      "name": "ClyrX",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779318305111,
+      "name": "MoneyMachine",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779317811863,
+      "name": "romasad",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779317153015,
+      "name": "dragmyn",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779316700277,
+      "name": "dragmyn",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779316694893,
+      "name": "romasad",
+      "tier": "MINOR",
+      "prize": 9.78
+    },
+    {
+      "ts": 1779316184252,
+      "name": "batten.ron",
+      "tier": "MAJOR",
+      "prize": 48.93
+    },
+    {
+      "ts": 1779315196223,
+      "name": "ofortuna34",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779312729250,
+      "name": "CNPcorpness",
+      "tier": "MAJOR",
+      "prize": 49
+    },
+    {
+      "ts": 1779310227224,
+      "name": "Janu90",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779309391948,
+      "name": "ClyrX",
+      "tier": "MINOR",
+      "prize": 9.82
+    },
+    {
+      "ts": 1779308823972,
+      "name": "ClyrX",
+      "tier": "MINOR",
+      "prize": 9.82
+    },
+    {
+      "ts": 1779308473477,
+      "name": "CNPcorpness",
+      "tier": "MINOR",
+      "prize": 9.82
+    },
+    {
+      "ts": 1779306048895,
+      "name": "Janu90",
+      "tier": "MINOR",
+      "prize": 9.81
+    },
+    {
+      "ts": 1779305913283,
+      "name": "ClyrX",
+      "tier": "MAJOR",
+      "prize": 49.07
+    },
+    {
+      "ts": 1779305057743,
+      "name": "axiehub-peru.ron",
+      "tier": "MAJOR",
+      "prize": 49.28
+    },
+    {
+      "ts": 1779296899640,
+      "name": "Mikiluna",
+      "tier": "MINOR",
+      "prize": 9.83
+    },
+    {
+      "ts": 1779296353404,
+      "name": "Linder",
+      "tier": "MINOR",
+      "prize": 9.84
+    },
+    {
+      "ts": 1779294867438,
+      "name": "Lambada",
+      "tier": "MINOR",
+      "prize": 9.84
+    },
+    {
+      "ts": 1779294689269,
+      "name": "HZero",
+      "tier": "MINOR",
+      "prize": 9.84
+    },
+    {
+      "ts": 1779294555659,
+      "name": "Lambada",
+      "tier": "MINOR",
+      "prize": 9.85
+    },
+    {
+      "ts": 1779294071913,
+      "name": "kitotp",
+      "tier": "MAJOR",
+      "prize": 49.3
+    },
+    {
+      "ts": 1779292143075,
+      "name": "Janu90",
+      "tier": "MINOR",
+      "prize": 9.89
+    },
+    {
+      "ts": 1779291628833,
+      "name": "mipi4",
+      "tier": "MINOR",
+      "prize": 9.89
+    },
+    {
+      "ts": 1779289537746,
+      "name": "Chuotvang",
+      "tier": "MAJOR",
+      "prize": 49.06
+    },
+    {
+      "ts": 1779287982773,
+      "name": "sorsae",
+      "tier": "MINOR",
+      "prize": 9.84
+    },
+    {
+      "ts": 1779287642002,
+      "name": "FrodosBeutel",
+      "tier": "MINOR",
+      "prize": 9.85
+    },
+    {
+      "ts": 1779287163532,
+      "name": "Becks",
+      "tier": "MAJOR",
+      "prize": 49.27
+    },
+    {
+      "ts": 1779286517635,
+      "name": "chamm",
+      "tier": "MAJOR",
+      "prize": 49.49
+    },
+    {
+      "ts": 1779283589776,
+      "name": "wilchan",
+      "tier": "MINOR",
+      "prize": 9.93
+    },
+    {
+      "ts": 1779280850721,
+      "name": "krovarak.ron",
+      "tier": "MAJOR",
+      "prize": 49.6
+    },
+    {
+      "ts": 1779277138423,
+      "name": "tse000.ron",
+      "tier": "MINOR",
+      "prize": 9.95
+    },
+    {
+      "ts": 1779276261515,
+      "name": "CNPcorpness",
+      "tier": "MEGA",
+      "prize": 199.1
+    },
+    {
+      "ts": 1779276158516,
+      "name": "tse000.ron",
+      "tier": "MEGA",
+      "prize": 199.1
+    },
+    {
+      "ts": 1779275747681,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 10.17
+    },
+    {
+      "ts": 1779275613397,
+      "name": "ClyrX",
+      "tier": "MINOR",
+      "prize": 10.18
+    },
+    {
+      "ts": 1779268208447,
+      "name": "ClyrX",
+      "tier": "MAJOR",
+      "prize": 50.65
+    },
+    {
+      "ts": 1779268144795,
+      "name": "magickaito",
+      "tier": "MINOR",
+      "prize": 10.18
+    },
     {
       "ts": 1779258657874,
       "name": "MoneyMachine",
@@ -224,18 +794,18 @@
       "totalPrize": 63.16
     },
     "CNPcorpness": {
-      "MEGA": 0,
-      "MAJOR": 0,
-      "MINOR": 3,
-      "total": 3,
-      "totalPrize": 31.02
+      "MEGA": 1,
+      "MAJOR": 2,
+      "MINOR": 6,
+      "total": 9,
+      "totalPrize": 357.12
     },
     "dragmyn": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.51
+      "MINOR": 6,
+      "total": 6,
+      "totalPrize": 59.36
     },
     "CNMBi": {
       "MEGA": 0,
@@ -246,66 +816,66 @@
     },
     "capoeira": {
       "MEGA": 0,
-      "MAJOR": 0,
+      "MAJOR": 1,
       "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.28
+      "total": 2,
+      "totalPrize": 58.54
     },
     "Linder": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.28
+      "MINOR": 3,
+      "total": 3,
+      "totalPrize": 29.87
     },
     "batten.ron": {
       "MEGA": 0,
-      "MAJOR": 0,
+      "MAJOR": 1,
       "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.28
+      "total": 2,
+      "totalPrize": 59.21
     },
     "MoneyMachine": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 3,
-      "total": 3,
-      "totalPrize": 30.7
+      "MINOR": 4,
+      "total": 4,
+      "totalPrize": 40.48
     },
     "ofortuna34": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 3,
-      "total": 3,
-      "totalPrize": 30.84
+      "MINOR": 6,
+      "total": 6,
+      "totalPrize": 60.33
     },
     "Janu90": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 2,
-      "total": 2,
-      "totalPrize": 20.56
+      "MINOR": 5,
+      "total": 5,
+      "totalPrize": 50.09
     },
     "magickaito": {
       "MEGA": 0,
-      "MAJOR": 0,
-      "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.28
+      "MAJOR": 1,
+      "MINOR": 8,
+      "total": 9,
+      "totalPrize": 128.35
     },
     "mipi4": {
       "MEGA": 0,
-      "MAJOR": 0,
-      "MINOR": 2,
-      "total": 2,
-      "totalPrize": 20.52
+      "MAJOR": 2,
+      "MINOR": 6,
+      "total": 8,
+      "totalPrize": 156.68
     },
     "kitotp": {
       "MEGA": 0,
-      "MAJOR": 0,
+      "MAJOR": 1,
       "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.28
+      "total": 2,
+      "totalPrize": 59.58
     },
     "TrungPhan": {
       "MEGA": 0,
@@ -316,10 +886,10 @@
     },
     "S3XBUSTER": {
       "MEGA": 0,
-      "MAJOR": 1,
-      "MINOR": 0,
-      "total": 1,
-      "totalPrize": 51.21
+      "MAJOR": 2,
+      "MINOR": 1,
+      "total": 3,
+      "totalPrize": 109.29
     },
     "oxnoc": {
       "MEGA": 0,
@@ -331,23 +901,23 @@
     "sorsae": {
       "MEGA": 0,
       "MAJOR": 1,
-      "MINOR": 0,
-      "total": 1,
-      "totalPrize": 51.02
+      "MINOR": 1,
+      "total": 2,
+      "totalPrize": 60.86
     },
     "Trandan": {
-      "MEGA": 0,
+      "MEGA": 1,
       "MAJOR": 2,
       "MINOR": 1,
-      "total": 3,
-      "totalPrize": 111.71
+      "total": 4,
+      "totalPrize": 303.13
     },
     "_KRIT": {
-      "MEGA": 0,
+      "MEGA": 1,
       "MAJOR": 0,
-      "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.17
+      "MINOR": 3,
+      "total": 4,
+      "totalPrize": 223.92
     },
     "GordoPity": {
       "MEGA": 0,
@@ -358,18 +928,221 @@
     },
     "axiehub-peru.ron": {
       "MEGA": 0,
-      "MAJOR": 0,
+      "MAJOR": 2,
       "MINOR": 1,
-      "total": 1,
-      "totalPrize": 10.19
+      "total": 3,
+      "totalPrize": 107.23
     },
     "MEGAblessing": {
       "MEGA": 0,
       "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 19.93
+    },
+    "ClyrX": {
+      "MEGA": 0,
+      "MAJOR": 3,
+      "MINOR": 5,
+      "total": 8,
+      "totalPrize": 197.96
+    },
+    "tse000.ron": {
+      "MEGA": 1,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 3,
+      "totalPrize": 218.76
+    },
+    "krovarak.ron": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 1,
+      "total": 2,
+      "totalPrize": 59.35
+    },
+    "wilchan": {
+      "MEGA": 0,
+      "MAJOR": 0,
       "MINOR": 1,
       "total": 1,
-      "totalPrize": 10.15
+      "totalPrize": 9.93
+    },
+    "chamm": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 49.49
+    },
+    "Becks": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 49.27
+    },
+    "FrodosBeutel": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.85
+    },
+    "Chuotvang": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 49.06
+    },
+    "Lambada": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 19.69
+    },
+    "HZero": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 19.57
+    },
+    "Mikiluna": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 19.69
+    },
+    "romasad": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 19.56
+    },
+    "Encrypt0x": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 49.11
+    },
+    "poti8sei": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.84
+    },
+    "NhutHuynh": {
+      "MEGA": 1,
+      "MAJOR": 0,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 194.2
+    },
+    "Tsuki73": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 3,
+      "total": 3,
+      "totalPrize": 29.05
+    },
+    "daaps": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.73
+    },
+    "Muststopsam": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 3,
+      "total": 4,
+      "totalPrize": 77.91
+    },
+    "mayab": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.76
+    },
+    "Chiquillo": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.6
+    },
+    "jerryzz": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 47.76
+    },
+    "TieuYet": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.65
+    },
+    "Kingarmor82": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.64
+    },
+    "mhunhn": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.79
+    },
+    "godlike": {
+      "MEGA": 0,
+      "MAJOR": 1,
+      "MINOR": 0,
+      "total": 1,
+      "totalPrize": 48.89
+    },
+    "p18zy0": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.86
+    },
+    "Aldemu": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.85
+    },
+    "BARCA": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.86
+    },
+    "Jammerhead": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.71
     }
   },
-  "lastTs": 1779258657874
+  "lastTs": 1779505716904
 }

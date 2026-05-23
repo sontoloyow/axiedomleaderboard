@@ -342,16 +342,19 @@ footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify
 .baxs-val{color:#a78bfa;font-weight:700}
 `;
 
-const NAV = (active) => `
+const NAV = (active, weekVal = "") => {
+  const weekQuery = weekVal ? `?week=${encodeURIComponent(weekVal)}` : "";
+  return `
 <nav>
   <span class="logo">MOG_STATS</span>
   <div class="nav-links">
-    <a href="/" class="nav-btn${active==="lb"?" active":""}">LEADERBOARD</a>
+    <a href="/${weekQuery}" class="nav-btn${active==="lb"?" active":""}">LEADERBOARD</a>
     <a href="/shards" class="nav-btn${active==="sh"?" active":""}">SHARDS</a>
-    <a href="/jackpot" class="nav-btn${active==="jk"?" active":""}">JACKPOT</a>
+    <a href="/jackpot${weekQuery}" class="nav-btn${active==="jk"?" active":""}">JACKPOT</a>
   </div>
   <a href="https://axiedom.xyz" target="_blank" class="play-btn">PLAY NOW</a>
 </nav>`;
+};
 
 const FOOTER = `
 <footer>
@@ -378,25 +381,94 @@ function resolveWeekData(weekVal) {
   return { players: arch.players, label: "WEEK #"+wn, pool: arch.pool };
 }
 
+function parseTimeValue(value) {
+  if (!value) return null;
+  const ts = Date.parse(value);
+  return Number.isFinite(ts) ? ts : null;
+}
+
+function getArchivedWeekData() {
+  return listArchivedWeeks()
+    .map(wn => loadWeekArchive(wn))
+    .filter(Boolean)
+    .sort((a, b) => a.weekNumber - b.weekNumber);
+}
+
+function buildWeekOptions(weekVal, currWeek) {
+  const weeks = listArchivedWeeks();
+  return [
+    `<option value="current"${weekVal==="current"||!weekVal?" selected":""}>CURRENT WEEK${currWeek?" (W"+currWeek+")":""}</option>`,
+    `<option value="alltime"${weekVal==="alltime"?" selected":""}>ALL TIME</option>`,
+    ...weeks.filter(w => !currWeek || w !== currWeek).map(w =>
+      `<option value="${w}"${weekVal==w?" selected":""}>WEEK #${w}</option>`)
+  ].join("");
+}
+
+function buildWeeklyJackpotScope(weekVal) {
+  const weekArchives = getArchivedWeekData();
+  const currentWeek = poolData ? poolData.weekNumber : null;
+
+  if (weekVal === "alltime") {
+    return {
+      weekVal: "alltime",
+      label: "ALL TIME",
+      pool: jackpotData,
+      log: winnerLog,
+      tally: winnerTally,
+      current: true,
+    };
+  }
+
+  const selectedWeek = weekVal === "current" || !weekVal ? currentWeek : parseInt(weekVal, 10);
+  if (!selectedWeek) {
+    return { weekVal: weekVal || "current", label: "CURRENT WEEK", pool: null, log: [], tally: {}, current: true };
+  }
+
+  const selectedIndex = weekArchives.findIndex(w => w.weekNumber === selectedWeek);
+  const selectedArchive = selectedIndex >= 0 ? weekArchives[selectedIndex] : null;
+  const isCurrent = weekVal === "current" || !weekVal;
+  const pool = isCurrent ? poolData : selectedArchive ? selectedArchive.pool : null;
+  const endMs = parseTimeValue(isCurrent ? poolData?.weekEnd : selectedArchive?.pool?.weekEnd) ?? Date.now();
+  const prevArchive = selectedIndex > 0 ? weekArchives[selectedIndex - 1] : null;
+  const startMs = parseTimeValue(prevArchive?.pool?.weekEnd || prevArchive?.savedAt);
+
+  const log = winnerLog.filter(e => {
+    const ts = Number(e.ts || 0);
+    if (startMs !== null && ts <= startMs) return false;
+    if (endMs !== null && ts > endMs) return false;
+    return true;
+  }).sort((a, b) => b.ts - a.ts);
+
+  const tally = {};
+  for (const e of log) {
+    if (!tally[e.name]) tally[e.name] = { MEGA: 0, MAJOR: 0, MINOR: 0, total: 0, totalPrize: 0 };
+    if (tally[e.name][e.tier] !== undefined) tally[e.name][e.tier]++;
+    tally[e.name].total++;
+    tally[e.name].totalPrize = +(tally[e.name].totalPrize + e.prize).toFixed(2);
+  }
+
+  return {
+    weekVal: isCurrent ? "current" : String(selectedWeek),
+    label: selectedArchive ? `WEEK #${selectedWeek}` : currentWeek ? `WEEK #${currentWeek}` : "CURRENT WEEK",
+    pool,
+    log,
+    tally,
+    current: isCurrent,
+  };
+}
+
 // ── PAGE: LEADERBOARD ─────────────────────────────────────────────────────────
 function buildPage(weekVal, sortCol, sortDir) {
   sortCol = sortCol || "rank";
   sortDir = sortDir || "asc";
   const myAddr   = (MY_ADDRESS||"").toLowerCase();
   const updated  = lastUpdate ? new Date(lastUpdate).toLocaleString("en-GB") : "NOT LOADED YET";
-  const weeks    = listArchivedWeeks();
   const currWeek = poolData ? poolData.weekNumber : null;
   const { players, label, pool } = resolveWeekData(weekVal);
-
+  const weekScope = buildWeeklyJackpotScope(weekVal);
   const jkByName = {};
-  Object.entries(winnerTally).forEach(([n,d]) => { jkByName[n.toLowerCase()] = d.totalPrize; });
-
-  const weekOptions = [
-    `<option value="current"${weekVal==="current"||!weekVal?" selected":""}>CURRENT WEEK${currWeek?" (W"+currWeek+")":""}</option>`,
-    `<option value="alltime"${weekVal==="alltime"?" selected":""}>ALL TIME</option>`,
-    ...weeks.filter(w => !currWeek || w !== currWeek).map(w =>
-      `<option value="${w}"${weekVal==w?" selected":""}>WEEK #${w}</option>`)
-  ].join("");
+  Object.entries(weekScope.tally || {}).forEach(([n,d]) => { jkByName[n.toLowerCase()] = d.totalPrize; });
+  const weekOptions = buildWeekOptions(weekVal, currWeek);
 
   let summaryCards = "";
   if (pool) {
@@ -523,7 +595,7 @@ th.sortable.active{color:#fff}
 .player-link{color:inherit;text-decoration:none;border-bottom:1px dashed #555;padding-bottom:1px}
 .player-link:hover{color:#C8FF00}
 </style></head><body>
-${NAV("lb")}
+${NAV("lb", weekVal)}
 <div class="panel">
   <div class="sys-label">SYSTEM_ACCESS_GRANTED</div>
   <h1>GLOBAL<br><span>LEADERBOARD</span></h1>
@@ -598,7 +670,7 @@ function buildShardsPage(weekVal) {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="refresh" content="300"><title>MOG_STATS // Shards</title>
 <style>${SHARED_CSS}</style></head><body>
-${NAV("sh")}
+${NAV("sh", weekVal)}
 <div class="panel">
   <div class="sys-label">SYSTEM_ACCESS_GRANTED</div>
   <h1>SHARDS<br><span>LEADERBOARD</span></h1>
@@ -651,24 +723,29 @@ ${FOOTER}</body></html>`;
 }
 
 // ── PAGE: JACKPOT ─────────────────────────────────────────────────────────────
-function buildJackpotPage() {
-  const jkPool       = jackpotData ? `$${jackpotData.poolUSDT.toFixed(2)}` : "—";
-  const jkTotalAdded = jackpotData ? `$${jackpotData.totalAdded.toLocaleString()}` : "—";
-  const jkTotalPaid  = jackpotData ? `$${jackpotData.totalPaid.toLocaleString()}` : "—";
-  const jkMega       = jackpotData ? `$${jackpotData.mega.toFixed(2)}` : "—";
-  const jkMajor      = jackpotData ? `$${jackpotData.major.toFixed(2)}` : "—";
-  const jkMinor      = jackpotData ? `$${jackpotData.minor.toFixed(2)}` : "—";
-  const updated      = lastUpdate ? new Date(lastUpdate).toLocaleString("en-GB") : "—";
+function buildJackpotPage(weekVal) {
+  const scope = buildWeeklyJackpotScope(weekVal);
+  const poolDataForView = scope.pool || jackpotData;
+  const updated = lastUpdate ? new Date(lastUpdate).toLocaleString("en-GB") : "—";
+  const weekOptions = buildWeekOptions(scope.weekVal, poolData ? poolData.weekNumber : null);
+  const weekLabel = scope.label || (poolData ? `WEEK #${poolData.weekNumber}` : "CURRENT WEEK");
+  const isCurrent = scope.current;
+  const jkPool       = poolDataForView ? `$${poolDataForView.poolUSDT.toFixed(2)}` : "—";
+  const jkTotalAdded = isCurrent && jackpotData ? `$${jackpotData.totalAdded.toLocaleString()}` : "—";
+  const jkTotalPaid  = isCurrent && jackpotData ? `$${jackpotData.totalPaid.toLocaleString()}` : "—";
+  const jkMega       = poolDataForView ? `$${(poolDataForView.poolUSDT * 0.02).toFixed(2)}` : "—";
+  const jkMajor      = poolDataForView ? `$${(poolDataForView.poolUSDT * 0.005).toFixed(2)}` : "—";
+  const jkMinor      = poolDataForView ? `$${(poolDataForView.poolUSDT * 0.001).toFixed(2)}` : "—";
 
-  const logRows = winnerLog.length===0
+  const logRows = scope.log.length===0
     ? '<div class="empty-state">NO WINNERS DETECTED YET — MONITORING ACTIVE</div>'
-    : winnerLog.slice(0,50).map(e=>{
+    : scope.log.map(e=>{
         const t=new Date(e.ts).toLocaleString("en-GB");
         const tc=e.tier==="MEGA"?"#FFD700":e.tier==="MAJOR"?"#60a5fa":"#888";
         return `<div class="log-row"><span class="log-time">${t}</span><span class="log-name">${e.name}</span><span style="color:${tc};font-weight:700;font-size:10px;letter-spacing:1px">${e.tier}</span><span class="log-prize">$${e.prize.toFixed(2)}</span></div>`;
       }).join("");
 
-  const jkSorted = Object.entries(winnerTally).sort((a,b)=>b[1].totalPrize-a[1].totalPrize);
+  const jkSorted = Object.entries(scope.tally || {}).sort((a,b)=>b[1].totalPrize-a[1].totalPrize);
   const jkLbRows = jkSorted.length===0
     ? '<tr><td colspan="7" class="empty-state" style="padding:20px;text-align:center">NO DATA YET</td></tr>'
     : jkSorted.map(([name,d],i)=>{
@@ -680,17 +757,24 @@ function buildJackpotPage() {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="refresh" content="300"><title>MOG_STATS // Jackpot</title>
 <style>${SHARED_CSS}</style></head><body>
-${NAV("jk")}
+${NAV("jk", scope.weekVal)}
 <div class="panel">
   <div class="sys-label">SYSTEM_ACCESS_GRANTED</div>
   <h1>JACKPOT<br><span>MONITOR</span></h1>
   <div class="subtitle"><span>REAL-TIME WEREWOLF PRIZE TRACKER</span><span class="version-tag">V.2.0.4</span></div>
   <div class="update-bar">
     <div><div class="status-live"><span class="dot"></span>AUTO REFRESH EVERY 5 MIN</div>
-    <div class="update-time">LAST UPDATE: ${updated} — ${winnerLog.length} WINNERS TRACKED</div></div>
+    <div class="update-time">LAST UPDATE: ${updated} — ${scope.log.length} WINNERS TRACKED</div></div>
+  </div>
+  <div class="week-bar">
+    <span class="week-label">VIEWING:</span>
+    <select class="week-select" onchange="location.href='/jackpot?week='+this.value">
+      ${weekOptions}
+    </select>
+    <span style="font-size:10px;color:var(--muted);letter-spacing:1px">${weekLabel}</span>
   </div>
   <div class="pool-bar">
-    <div><div class="pool-label">CURRENT JACKPOT POOL</div><div class="pool-value">${jkPool}</div><div class="pool-meta">LIVE BALANCE</div></div>
+    <div><div class="pool-label">${isCurrent?"CURRENT JACKPOT POOL":"WEEK JACKPOT POOL"}</div><div class="pool-value">${jkPool}</div><div class="pool-meta">${isCurrent?"LIVE BALANCE":"ARCHIVED WEEK"}</div></div>
     <div><div class="pool-label">POOL STATS</div><div style="display:flex;gap:20px;margin-top:6px">
       <div><div class="pool-label">TOTAL ADDED</div><div style="color:#C8FF00;font-weight:700;font-size:14px">${jkTotalAdded}</div></div>
       <div><div class="pool-label">TOTAL PAID</div><div style="color:#ff4444;font-weight:700;font-size:14px">${jkTotalPaid}</div></div>
@@ -701,9 +785,9 @@ ${NAV("jk")}
       <div><div class="pool-label">MINOR 0.1%</div><div style="color:#888;font-size:14px">${jkMinor}</div></div>
     </div></div>
   </div>
-  <div class="section-title">WINNER LOG — ${winnerLog.length} ENTRIES</div>
+  <div class="section-title">WINNER LOG — ${scope.log.length} ENTRIES</div>
   <div class="winner-log">
-    <div class="log-header"><span>RECENT WEREWOLF DEFEATS</span><span>${winnerLog.length} TOTAL</span></div>
+    <div class="log-header"><span>RECENT WEREWOLF DEFEATS</span><span>${scope.log.length} TOTAL</span></div>
     <div>${logRows}</div>
   </div>
   <div class="section-title">TOP PRIZE EARNERS — SORTED BY TOTAL PRIZE</div>
@@ -923,7 +1007,7 @@ app.get("/debug",   (req,res) => res.json({
   samplePlayer:    leaderboardData && leaderboardData[0] ? { rank: leaderboardData[0].rank, name: leaderboardData[0].profileName, address: leaderboardData[0].address } : null,
 }));
 app.get("/shards",  (req,res) => res.send(buildShardsPage(req.query.week||"current")));
-app.get("/jackpot", (req,res) => res.send(buildJackpotPage()));
+app.get("/jackpot", (req,res) => res.send(buildJackpotPage(req.query.week||"current")));
 app.get("/player/:address", async (req,res) => {
   const addr   = req.params.address;
   const player = (leaderboardData||[]).find(p => p.address.toLowerCase()===addr.toLowerCase());
