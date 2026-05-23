@@ -287,6 +287,30 @@ async function refreshJackpot() {
   } catch (e) { console.error("[jk] error:", e.message); }
 }
 
+async function fetchLiveJackpotPoolView() {
+  try {
+    const poolRes = await fetchJSON("https://axiedom.xyz/api/jackpot/pool");
+    if (poolRes.status !== 200) throw new Error("Jackpot HTTP " + poolRes.status);
+    const pool = poolRes.body || {};
+    const balanceWei = parseInt(pool.balanceWei || "0", 10);
+    const totalAddedWei = parseInt(pool.totalAddedWei || "0", 10);
+    const totalPaidWei = parseInt(pool.totalPaidWei || "0", 10);
+    const poolUSDT = balanceWei / 1_000_000;
+    return {
+      poolUSDT,
+      balanceWei: pool.balanceWei,
+      totalAdded: +(totalAddedWei / 1_000_000).toFixed(2),
+      totalPaid: +(totalPaidWei / 1_000_000).toFixed(2),
+      mega: +(poolUSDT * 0.02).toFixed(2),
+      major: +(poolUSDT * 0.005).toFixed(2),
+      minor: +(poolUSDT * 0.001).toFixed(2),
+    };
+  } catch (e) {
+    console.error("[jk] live pool fetch failed:", e.message);
+    return jackpotData;
+  }
+}
+
 // ── SHARED CSS & NAV ──────────────────────────────────────────────────────────
 const SHARED_CSS = `
 *{box-sizing:border-box;margin:0;padding:0}
@@ -734,10 +758,10 @@ ${FOOTER}</body></html>`;
 }
 
 // ── PAGE: JACKPOT ─────────────────────────────────────────────────────────────
-function buildJackpotPage(weekVal) {
+async function buildJackpotPage(weekVal) {
   const scope = buildWeeklyJackpotScope(weekVal);
   const isCurrent = scope.current;
-  const poolDataForView = isCurrent ? (jackpotData || scope.pool) : (scope.pool || jackpotData);
+  const poolDataForView = isCurrent ? (await fetchLiveJackpotPoolView()) : (scope.pool || jackpotData);
   const updated = lastUpdate ? new Date(lastUpdate).toLocaleString("en-GB") : "—";
   const weekOptions = buildWeekOptions(scope.weekVal, poolData ? poolData.weekNumber : null);
   const weekLabel = scope.label || (poolData ? `WEEK #${poolData.weekNumber}` : "CURRENT WEEK");
@@ -1018,7 +1042,7 @@ app.get("/debug",   (req,res) => res.json({
   samplePlayer:    leaderboardData && leaderboardData[0] ? { rank: leaderboardData[0].rank, name: leaderboardData[0].profileName, address: leaderboardData[0].address } : null,
 }));
 app.get("/shards",  (req,res) => res.send(buildShardsPage(req.query.week||"current")));
-app.get("/jackpot", (req,res) => res.send(buildJackpotPage(req.query.week||"current")));
+app.get("/jackpot", async (req,res) => res.send(await buildJackpotPage(req.query.week||"current")));
 app.get("/player/:address", async (req,res) => {
   const addr   = req.params.address;
   const player = (leaderboardData||[]).find(p => p.address.toLowerCase()===addr.toLowerCase());
