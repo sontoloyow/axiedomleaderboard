@@ -1,15 +1,33 @@
 {
-  "savedAt": "2026-05-23T04:15:01.961Z",
+  "savedAt": "2026-05-23T06:10:01.763Z",
   "jackpot": {
-    "poolUSDT": 9721.104497,
-    "balanceWei": "9721104497",
-    "totalAdded": 38289.3,
-    "totalPaid": 33568.2,
-    "mega": 194.42,
-    "major": 48.61,
-    "minor": 9.72
+    "poolUSDT": 9730.262246,
+    "balanceWei": "9730262246",
+    "totalAdded": 38324.7,
+    "totalPaid": 33594.44,
+    "mega": 194.61,
+    "major": 48.65,
+    "minor": 9.73
   },
   "log": [
+    {
+      "ts": 1779512186437,
+      "name": "Aldemu",
+      "tier": "MINOR",
+      "prize": 9.7
+    },
+    {
+      "ts": 1779511920069,
+      "name": "0xluch.ron",
+      "tier": "MINOR",
+      "prize": 9.71
+    },
+    {
+      "ts": 1779511494995,
+      "name": "MoneyMachine",
+      "tier": "MINOR",
+      "prize": 9.72
+    },
     {
       "ts": 1779505716904,
       "name": "Jammerhead",
@@ -838,9 +856,9 @@
     "MoneyMachine": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 4,
-      "total": 4,
-      "totalPrize": 40.48
+      "MINOR": 5,
+      "total": 5,
+      "totalPrize": 50.2
     },
     "ofortuna34": {
       "MEGA": 0,
@@ -1125,9 +1143,9 @@
     "Aldemu": {
       "MEGA": 0,
       "MAJOR": 0,
-      "MINOR": 1,
-      "total": 1,
-      "totalPrize": 9.85
+      "MINOR": 2,
+      "total": 2,
+      "totalPrize": 19.55
     },
     "BARCA": {
       "MEGA": 0,
@@ -1142,7 +1160,14 @@
       "MINOR": 1,
       "total": 1,
       "totalPrize": 9.71
+    },
+    "0xluch.ron": {
+      "MEGA": 0,
+      "MAJOR": 0,
+      "MINOR": 1,
+      "total": 1,
+      "totalPrize": 9.71
     }
   },
-  "lastTs": 1779505716904
+  "lastTs": 1779512186437
 }

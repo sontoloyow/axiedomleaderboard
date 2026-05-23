@@ -5,13 +5,13 @@ const fs      = require("fs");
 const path    = require("path");
 require("dotenv").config({ path: path.join(__dirname, "..", ".env"), quiet: true });
 const { fetchClaimHistory } = require("./services/explorer");
+const { ensureCookie, getCookie, refreshCookie } = require("./services/axieAuth");
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
 const PROJECT_ROOT = path.join(__dirname, "..");
 
 const MY_ADDRESS = process.env.MY_ADDRESS  || "";
-const COOKIE     = process.env.AXIE_COOKIE || "";
 
 // ── STORAGE ───────────────────────────────────────────────────────────────────
 const DATA_DIR      = fs.existsSync("/data") ? "/data" : path.join(PROJECT_ROOT, "data");
@@ -39,23 +39,34 @@ function getHeaders() {
   return {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0",
     Accept: "*/*", "Accept-Language": "en-US,en;q=0.9",
-    Referer: "https://axiedom.xyz/", Connection: "keep-alive", Cookie: COOKIE,
+    Referer: "https://axiedom.xyz/", Connection: "keep-alive", Cookie: getCookie(),
   };
 }
 
-function fetchJSON(url) {
-  return new Promise((resolve, reject) => {
+async function fetchJSON(url, retry = true) {
+  const result = await new Promise((resolve, reject) => {
     const req = https.get(url, { headers: getHeaders() }, (res) => {
       let raw = "";
       res.on("data", (c) => (raw += c));
       res.on("end", () => {
-        try { resolve({ status: res.statusCode, body: JSON.parse(raw) }); }
+        try { resolve({ status: res.statusCode, body: JSON.parse(raw), raw }); }
         catch { reject(new Error(`JSON parse error ${res.statusCode}: ${raw.slice(0,200)}`)); }
       });
     });
     req.on("error", reject);
     req.setTimeout(15000, () => { req.destroy(); reject(new Error("timeout")); });
   });
+
+  if (retry && (result.status === 401 || result.status === 403)) {
+    await refreshCookie();
+    return fetchJSON(url, false);
+  }
+
+  if (result.status >= 400) {
+    throw new Error(`JSON HTTP ${result.status}: ${result.raw?.slice(0,200) || ""}`);
+  }
+
+  return { status: result.status, body: result.body };
 }
 
 // ── WEEK ARCHIVE ──────────────────────────────────────────────────────────────
@@ -725,11 +736,11 @@ ${FOOTER}</body></html>`;
 // ── PAGE: JACKPOT ─────────────────────────────────────────────────────────────
 function buildJackpotPage(weekVal) {
   const scope = buildWeeklyJackpotScope(weekVal);
-  const poolDataForView = scope.pool || jackpotData;
+  const isCurrent = scope.current;
+  const poolDataForView = isCurrent ? (jackpotData || scope.pool) : (scope.pool || jackpotData);
   const updated = lastUpdate ? new Date(lastUpdate).toLocaleString("en-GB") : "—";
   const weekOptions = buildWeekOptions(scope.weekVal, poolData ? poolData.weekNumber : null);
   const weekLabel = scope.label || (poolData ? `WEEK #${poolData.weekNumber}` : "CURRENT WEEK");
-  const isCurrent = scope.current;
   const jkPool       = poolDataForView ? `$${poolDataForView.poolUSDT.toFixed(2)}` : "—";
   const jkTotalAdded = isCurrent && jackpotData ? `$${jackpotData.totalAdded.toLocaleString()}` : "—";
   const jkTotalPaid  = isCurrent && jackpotData ? `$${jackpotData.totalPaid.toLocaleString()}` : "—";
@@ -804,7 +815,7 @@ ${FOOTER}</body></html>`;
 
 // ── PLAYER DETAIL ─────────────────────────────────────────────────────────────
 async function buildPlayerDetailPage(address, playerName) {
-  const { blessingDetails, payoutDetails, spentDetails = [] } = await fetchClaimHistory(address, COOKIE);
+  const { blessingDetails, payoutDetails, spentDetails = [] } = await fetchClaimHistory(address);
 
   // 1. Summaries
   const formatClaim = (value) => value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -1002,8 +1013,8 @@ app.get("/debug",   (req,res) => res.json({
   poolData:        poolData,
   lastUpdate:      lastUpdate,
   myAddress:       MY_ADDRESS || "(not set)",
-  cookieSet:       COOKIE.length > 0,
-  cookieLen:       COOKIE.length,
+  cookieSet:       getCookie().length > 0,
+  cookieLen:       getCookie().length,
   samplePlayer:    leaderboardData && leaderboardData[0] ? { rank: leaderboardData[0].rank, name: leaderboardData[0].profileName, address: leaderboardData[0].address } : null,
 }));
 app.get("/shards",  (req,res) => res.send(buildShardsPage(req.query.week||"current")));
@@ -1034,10 +1045,19 @@ cron.schedule("*/5 * * * *", async () => {
 app.listen(PORT, async () => {
   console.log("=== MOG_STATS port", PORT, "===");
   console.log("MY_ADDRESS  :", MY_ADDRESS||"(not set)");
-  console.log("AXIE_COOKIE :", COOKIE?`SET (${COOKIE.length} chars)`:"(not set)");
+  console.log("SIGNER      :", process.env.AXIE_PRIVATE_KEY ? "SET" : "(not set)");
+  console.log("COOKIE CACHE:", process.env.AXIE_COOKIE_FILE || "./data/axie_cookie.txt");
   console.log("DATA_DIR    :", DATA_DIR);
   console.log("Volume /data:", fs.existsSync("/data")?"MOUNTED ✓":"NOT MOUNTED");
   console.log("Archived weeks:", listArchivedWeeks());
+
+  try {
+    await ensureCookie();
+  } catch (e) {
+    console.error("[auth] initial cookie setup failed:", e.message);
+  }
+
+  console.log("AXIE_COOKIE :", getCookie()?`SET (${getCookie().length} chars)`:"(not set)");
 
   const saved = loadWinners();
   winnerLog    = saved.log   || [];

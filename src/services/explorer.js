@@ -1,4 +1,5 @@
 const https = require("https");
+const { getCookie, refreshCookie } = require("./axieAuth");
 
 const EXPLORER_API = "https://explorer.roninchain.com/api/v2";
 const CONTRACT_BLESS = "0xb85b9b814d01a77d661d92852abbfa606d10c591";
@@ -11,15 +12,15 @@ function lower(value) {
   return (value || "").toLowerCase();
 }
 
-function fetchExplorer(url, cookie = "") {
-  return new Promise((resolve, reject) => {
+async function fetchExplorer(url, cookie = "", retry = true) {
+  const response = await new Promise((resolve, reject) => {
     const req = https.get(url, {
       headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:150.0) Gecko/20100101 Firefox/150.0",
         Accept: "application/json",
         "Accept-Language": "en-US,en;q=0.9",
         Referer: "https://explorer.roninchain.com/",
-        Cookie: cookie,
+        Cookie: cookie || getCookie(),
       },
     }, (res) => {
       let raw = "";
@@ -27,12 +28,7 @@ function fetchExplorer(url, cookie = "") {
       res.on("end", () => {
         try {
           const body = JSON.parse(raw);
-          if (res.statusCode >= 400) {
-            const msg = body.errors?.[0]?.detail || body.message || raw.slice(0, 120);
-            reject(new Error(`Explorer HTTP ${res.statusCode}: ${msg}`));
-            return;
-          }
-          resolve(body);
+          resolve({ status: res.statusCode || 0, body, raw });
         } catch {
           reject(new Error("JSON parse: " + raw.slice(0, 100)));
         }
@@ -44,6 +40,17 @@ function fetchExplorer(url, cookie = "") {
       reject(new Error("timeout"));
     });
   });
+
+  if (response.status >= 400) {
+    const msg = response.body.errors?.[0]?.detail || response.body.message || response.raw.slice(0, 120);
+    if (retry && (response.status === 401 || response.status === 403)) {
+      await refreshCookie();
+      return fetchExplorer(url, cookie, false);
+    }
+    throw new Error(`Explorer HTTP ${response.status}: ${msg}`);
+  }
+
+  return response.body;
 }
 
 async function fetchPlayerTxs(address, cookie = "") {
